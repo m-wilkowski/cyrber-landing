@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CYRBER — Videt Omnia</title>
+<meta name="description" content="Autonomiczna platforma adversary reasoning. Trzy glowy. Jeden cel. Nadchodzi.">
+<meta name="theme-color" content="#0a0a0f">
+<link rel="icon" type="image/jpeg" href="/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0f;
+  --bg2: #111118;
+  --red: #ef4444;
+  --blue: #3b82f6;
+  --gold: #f59e0b;
+  --cyan: #22d3ee;
+  --muted: #555568;
+  --text: #e4e4e8;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Share Tech Mono', monospace;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Subtle scan lines */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,0.008) 2px,
+    rgba(255,255,255,0.008) 4px
+  );
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* Ambient glow */
+.glow {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 0;
+}
+.glow-1 { background: var(--red); top: -200px; left: -100px; }
+.glow-2 { background: var(--blue); bottom: -200px; right: -100px; }
+
+/* Layout */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 8vh 24px 12vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Logo */
+.logo-wrap {
+  margin-bottom: 40px;
+  animation: fadeIn 1.5s ease both;
+}
+.logo {
+  width: 180px;
+  height: auto;
+  border-radius: 12px;
+  filter: saturate(0.8) brightness(0.95);
+  transition: filter 0.4s;
+}
+.logo:hover {
+  filter: saturate(1.1) brightness(1.05) drop-shadow(0 0 30px rgba(239,68,68,0.3));
+}
+
+/* Title */
+.title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 8px;
+  animation: fadeIn 1.5s ease 0.3s both;
+}
+
+/* Latin motto */
+.motto {
+  font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+  letter-spacing: 0.35em;
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 48px;
+  animation: fadeIn 1.5s ease 0.6s both;
+}
+
+/* Divider */
+.divider {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--red), transparent);
+  margin-bottom: 48px;
+  animation: fadeIn 1.5s ease 0.8s both;
+}
+
+/* Three heads */
+.heads {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  width: 100%;
+  margin-bottom: 56px;
+  animation: fadeIn 1.5s ease 1s both;
+}
+@media (max-width: 600px) { .heads { grid-template-columns: 1fr; gap: 24px; } }
+
+.head-card {
+  text-align: center;
+  padding: 28px 16px;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.02);
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+.head-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--head-color);
+  opacity: 0.6;
+}
+.head-card:hover {
+  border-color: var(--head-color);
+  background: rgba(255,255,255,0.04);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.head-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--head-color);
+  margin-bottom: 12px;
+}
+.head-desc {
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+/* Teaser line */
+.teaser {
+  text-align: center;
+  margin-bottom: 40px;
+  animation: fadeIn 1.5s ease 1.3s both;
+}
+.teaser-main {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(0.85rem, 2vw, 1.1rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--red);
+  margin-bottom: 12px;
+}
+.teaser-sub {
+  font-size: 0.8rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  line-height: 1.8;
+  max-width: 520px;
+}
+
+/* NIS2 badge */
+.nis2 {
+  display: inline-block;
+  padding: 8px 20px;
+  border: 1px solid rgba(239,68,68,0.3);
+  border-radius: 4px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--red);
+  margin-bottom: 48px;
+  animation: fadeIn 1.5s ease 1.5s both;
+  transition: all 0.3s;
+}
+.nis2:hover {
+  background: rgba(239,68,68,0.08);
+  border-color: var(--red);
+}
+
+/* Contact */
+.contact {
+  text-align: center;
+  animation: fadeIn 1.5s ease 1.7s both;
+}
+.contact-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.contact-link {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  color: var(--cyan);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  transition: color 0.3s;
+}
+.contact-link:hover { color: #fff; }
+
+/* Footer */
+.footer {
+  margin-top: 56px;
+  text-align: center;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.15);
+  letter-spacing: 0.15em;
+  animation: fadeIn 1.5s ease 2s both;
+}
+
+/* Pulse dot */
+.pulse {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--red);
+  border-radius: 50%;
+  margin-right: 6px;
+  animation: pulse 2s ease-in-out infinite;
+  vertical-align: middle;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
+  50% { opacity: 0.6; box-shadow: 0 0 0 8px rgba(239,68,68,0); }
+}
+</style>
+</head>
+<body>
+
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+
+<div class="container">
+
+  <div class="logo-wrap">
+    <img src="/logo.jpg" alt="CYRBER" class="logo">
+  </div>
+
+  <h1 class="title">CYRBER</h1>
+  <p class="motto">VIDET OMNIA &middot; MEMINIT OMNIA &middot; IUDICAT OMNIA</p>
+
+  <div class="divider"></div>
+
+  <div class="heads">
+    <div class="head-card" style="--head-color: var(--blue)">
+      <div class="head-name">RATIO</div>
+      <div class="head-desc">Pierwsza glowa widzi.<br>Skanuje, analizuje, mapuje.<br>Nic nie umknie.</div>
+    </div>
+    <div class="head-card" style="--head-color: var(--red)">
+      <div class="head-name">ANIMUS</div>
+      <div class="head-desc">Druga glowa atakuje.<br>Testuje obrony tak,<br>jak zrobilby przeciwnik.</div>
+    </div>
+    <div class="head-card" style="--head-color: var(--gold)">
+      <div class="head-name">FATUM</div>
+      <div class="head-desc">Trzecia glowa osadza.<br>Kryptograficznie udowadnia<br>co sie stalo.</div>
+    </div>
+  </div>
+
+  <div class="teaser">
+    <div class="teaser-main"><span class="pulse"></span>AUTONOMICZNA PLATFORMA ADVERSARY REASONING</div>
+    <div class="teaser-sub">
+      Atakuje Twoja siec. Sprawdza czy SIEM to widzi.<br>
+      Udowadnia poziom bezpieczenstwa audytorowi.<br>
+      Bez wychodzenia danych na zewnatrz.
+    </div>
+  </div>
+
+  <div class="nis2">NIS2 READY &middot; ON-PREMISES &middot; AI-DRIVEN</div>
+
+  <div class="contact">
+    <div class="contact-label">KONTAKT</div>
+    <a href="mailto:kontakt@cyrber.pl" class="contact-link">kontakt@cyrber.pl</a>
+  </div>
+
+  <div class="footer">
+    &copy; 2026 CYRBER &middot; Michal Wilkowski &middot; Wroclaw, Polska
+  </div>
+
+</div>
+
+</body>
+</html>
