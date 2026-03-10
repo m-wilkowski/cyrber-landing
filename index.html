@@ -40,27 +40,28 @@ body::before {
     0deg,
     transparent,
     transparent 2px,
-    rgba(255,255,255,0.006) 2px,
-    rgba(255,255,255,0.006) 4px
+    rgba(255,255,255,0.005) 2px,
+    rgba(255,255,255,0.005) 4px
   );
   pointer-events: none;
   z-index: 100;
 }
 
-/* Single red glow behind logo */
+/* Red glow behind logo — large, pulsing */
 .glow {
   position: fixed;
-  width: 500px;
-  height: 500px;
+  width: 700px;
+  height: 700px;
   border-radius: 50%;
-  background: var(--red);
-  filter: blur(160px);
-  opacity: 0.04;
+  background: radial-gradient(circle, var(--red) 0%, transparent 70%);
+  filter: blur(80px);
+  opacity: 0.06;
   pointer-events: none;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -55%);
+  transform: translate(-50%, -52%);
   z-index: 0;
+  animation: glowPulse 6s ease-in-out infinite;
 }
 
 .container {
@@ -73,17 +74,69 @@ body::before {
   max-width: 600px;
 }
 
-/* Logo — big, classic */
-.logo {
-  width: min(360px, 70vw);
-  height: auto;
-  margin-bottom: 48px;
+/* Logo hub — circle + spark + logo */
+.logo-hub {
+  position: relative;
+  width: min(480px, 85vw);
+  height: min(480px, 85vw);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
   animation: emerge 2.5s ease both;
-  filter: drop-shadow(0 0 60px rgba(239,68,68,0.08));
+}
+
+/* Orbit ring */
+.orbit-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(239, 68, 68, 0.08);
+}
+
+/* SVG spark that orbits the ring */
+.orbit-spark {
+  position: absolute;
+  inset: -4px;
+  animation: orbit 8s linear infinite;
+}
+.orbit-spark circle {
+  filter: blur(1px);
+}
+
+/* Second spark — opposite side, slower */
+.orbit-spark-2 {
+  position: absolute;
+  inset: -4px;
+  animation: orbit 12s linear infinite reverse;
+}
+
+/* Subtle inner ring */
+.orbit-ring-inner {
+  position: absolute;
+  inset: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(239, 68, 68, 0.04);
+}
+
+/* Small tick marks on the ring */
+.ring-ticks {
+  position: absolute;
+  inset: 0;
+  animation: tickRotate 120s linear infinite;
+}
+
+/* Logo image */
+.logo {
+  width: 72%;
+  height: auto;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 0 40px rgba(239,68,68,0.1));
   transition: filter 0.6s;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 80px rgba(239,68,68,0.15));
+  filter: drop-shadow(0 0 60px rgba(239,68,68,0.2));
 }
 
 /* Motto */
@@ -92,7 +145,7 @@ body::before {
   letter-spacing: 0.4em;
   color: var(--muted);
   text-align: center;
-  margin-bottom: 64px;
+  margin-bottom: 56px;
   animation: emerge 2s ease 0.8s both;
 }
 
@@ -101,15 +154,15 @@ body::before {
   width: 40px;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--red), transparent);
-  margin-bottom: 64px;
+  margin-bottom: 56px;
   animation: emerge 2s ease 1.2s both;
 }
 
-/* Three names — no descriptions, just cryptic */
+/* Three names */
 .three {
   display: flex;
   gap: 40px;
-  margin-bottom: 72px;
+  margin-bottom: 64px;
   animation: emerge 2s ease 1.6s both;
 }
 .three span {
@@ -130,18 +183,17 @@ body::before {
   letter-spacing: 0;
 }
 
-/* Teaser — one cryptic line */
+/* Teaser */
 .teaser {
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   color: var(--muted);
   text-align: center;
-  margin-bottom: 80px;
+  margin-bottom: 72px;
   animation: emerge 2s ease 2s both;
-  line-height: 2;
 }
 
-/* Contact — minimal */
+/* Contact */
 .contact {
   animation: emerge 2s ease 2.4s both;
 }
@@ -176,6 +228,18 @@ body::before {
   0%, 100% { opacity: 0.8; box-shadow: 0 0 0 0 rgba(239,68,68,0.3); }
   50% { opacity: 0.3; box-shadow: 0 0 0 6px rgba(239,68,68,0); }
 }
+@keyframes orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes tickRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.06; transform: translate(-50%, -52%) scale(1); }
+  50% { opacity: 0.09; transform: translate(-50%, -52%) scale(1.05); }
+}
 </style>
 </head>
 <body>
@@ -184,7 +248,38 @@ body::before {
 
 <div class="container">
 
-  <img src="/cyrber-logo.png" alt="CYRBER" class="logo">
+  <div class="logo-hub">
+    <!-- Outer orbit ring -->
+    <div class="orbit-ring"></div>
+    <!-- Inner ring -->
+    <div class="orbit-ring-inner"></div>
+    <!-- Tick marks on ring -->
+    <svg class="ring-ticks" viewBox="0 0 480 480">
+      <!-- 12 subtle tick marks -->
+      <line x1="240" y1="0" x2="240" y2="8" stroke="rgba(239,68,68,0.12)" stroke-width="1"/>
+      <line x1="240" y1="472" x2="240" y2="480" stroke="rgba(239,68,68,0.12)" stroke-width="1"/>
+      <line x1="0" y1="240" x2="8" y2="240" stroke="rgba(239,68,68,0.12)" stroke-width="1"/>
+      <line x1="472" y1="240" x2="480" y2="240" stroke="rgba(239,68,68,0.12)" stroke-width="1"/>
+      <!-- diagonal ticks -->
+      <line x1="69" y1="69" x2="74.7" y2="74.7" stroke="rgba(239,68,68,0.07)" stroke-width="1"/>
+      <line x1="405.3" y1="405.3" x2="411" y2="411" stroke="rgba(239,68,68,0.07)" stroke-width="1"/>
+      <line x1="411" y1="69" x2="405.3" y2="74.7" stroke="rgba(239,68,68,0.07)" stroke-width="1"/>
+      <line x1="74.7" y1="405.3" x2="69" y2="411" stroke="rgba(239,68,68,0.07)" stroke-width="1"/>
+    </svg>
+    <!-- Orbiting spark 1 — bright -->
+    <svg class="orbit-spark" viewBox="0 0 488 488">
+      <circle cx="244" cy="4" r="3" fill="#ef4444" opacity="0.9"/>
+      <circle cx="244" cy="4" r="6" fill="#ef4444" opacity="0.3"/>
+      <circle cx="244" cy="4" r="12" fill="#ef4444" opacity="0.08"/>
+    </svg>
+    <!-- Orbiting spark 2 — dimmer, reverse -->
+    <svg class="orbit-spark-2" viewBox="0 0 488 488">
+      <circle cx="244" cy="4" r="2" fill="#ef4444" opacity="0.4"/>
+      <circle cx="244" cy="4" r="5" fill="#ef4444" opacity="0.12"/>
+    </svg>
+    <!-- Logo -->
+    <img src="/cyrber-logo.png" alt="CYRBER" class="logo">
+  </div>
 
   <p class="motto">VIDET OMNIA &middot; MEMINIT OMNIA &middot; IUDICAT OMNIA</p>
 
