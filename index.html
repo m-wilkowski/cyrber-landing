@@ -239,6 +239,9 @@ body::before {
   letter-spacing: 0.08em;
   transition: border-color 0.3s, color 0.3s;
   margin-top: 8px;
+  cursor: pointer;
+  background: none;
+  font-family: inherit;
 }
 .contact-matrix:hover {
   border-color: rgba(255,255,255,0.4);
@@ -251,6 +254,118 @@ body::before {
   margin-top: 8px;
   letter-spacing: 0.05em;
   opacity: 0.7;
+}
+
+/* Chat modal */
+.chat-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+.chat-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.chat-modal {
+  width: min(480px, 92vw);
+  height: min(680px, 88vh);
+  background: #0c0c14;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 0 80px rgba(239, 68, 68, 0.06), 0 0 1px rgba(255,255,255,0.1);
+  transform: scale(0.95) translateY(10px);
+  transition: transform 0.3s ease;
+}
+.chat-overlay.active .chat-modal {
+  transform: scale(1) translateY(0);
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+.chat-header-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+}
+.chat-close {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-dim);
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, color 0.2s;
+  font-family: inherit;
+}
+.chat-close:hover {
+  border-color: rgba(239,68,68,0.4);
+  color: #e4e4e8;
+}
+
+.chat-iframe-wrap {
+  flex: 1;
+  position: relative;
+  background: #0a0a0f;
+}
+.chat-iframe-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.chat-footer {
+  padding: 10px 18px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+.chat-footer-lock {
+  color: rgba(239, 68, 68, 0.4);
+  font-size: 0.75rem;
+}
+.chat-footer-info {
+  font-size: 0.55rem;
+  color: var(--text-vdim);
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+.chat-footer-link {
+  margin-left: auto;
+  font-size: 0.55rem;
+  color: var(--text-vdim);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+.chat-footer-link:hover {
+  color: var(--text);
 }
 
 /* Pulse dot */
@@ -343,16 +458,57 @@ body::before {
   <div class="contact">
     <a href="mailto:kontakt@cyrber.pl">kontakt@cyrber.pl</a>
     <div class="contact-divider"></div>
-    <a href="https://chat.cyrber.pl/#/room/#kontakt:matrix.cyrber.pl"
-       target="_blank"
-       rel="noopener noreferrer"
-       class="contact-matrix">
+    <button onclick="openChat()" class="contact-matrix">
       💬 Napisz do nas · Matrix
-    </a>
-    <p class="contact-note">Komunikacja szyfrowana E2E · Self-hosted · Protokół Matrix</p>
+    </button>
+    <p class="contact-note">Szyfrowanie end-to-end · Self-hosted · Protokół Matrix</p>
   </div>
 
 </div>
+
+<!-- Chat modal -->
+<div class="chat-overlay" id="chatOverlay" onclick="if(event.target===this)closeChat()">
+  <div class="chat-modal">
+    <div class="chat-header">
+      <span class="chat-header-title">CYRBER · KONTAKT</span>
+      <button class="chat-close" onclick="closeChat()" title="Zamknij">✕</button>
+    </div>
+    <div class="chat-iframe-wrap" id="chatIframeWrap"></div>
+    <div class="chat-footer">
+      <span class="chat-footer-lock">🔒</span>
+      <span class="chat-footer-info">
+        Szyfrowanie end-to-end (E2EE) · Serwer własny CYRBER<br>
+        Połączenie w pełni szyfrowane — nikt poza Tobą i nami nie ma dostępu do treści
+      </span>
+      <a href="https://chat.cyrber.pl/#/room/#kontakt:matrix.cyrber.pl"
+         target="_blank" rel="noopener noreferrer"
+         class="chat-footer-link">Otwórz pełną wersję ↗</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function openChat() {
+  var overlay = document.getElementById('chatOverlay');
+  var wrap = document.getElementById('chatIframeWrap');
+  if (!wrap.querySelector('iframe')) {
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://chat.cyrber.pl/#/room/#kontakt:matrix.cyrber.pl';
+    iframe.allow = 'encrypted-media';
+    iframe.title = 'CYRBER Matrix Chat';
+    wrap.appendChild(iframe);
+  }
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeChat() {
+  document.getElementById('chatOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeChat();
+});
+</script>
 
 </body>
 </html>
