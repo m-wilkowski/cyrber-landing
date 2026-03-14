@@ -208,6 +208,7 @@ body::before {
 /* Contact */
 .contact {
   animation: emerge 2s ease 2.4s both;
+  text-align: center;
 }
 .contact a {
   font-size: 0.72rem;
@@ -218,6 +219,38 @@ body::before {
 }
 .contact a:hover {
   color: var(--text);
+}
+
+.contact-divider {
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(239,68,68,0.3), transparent);
+  margin: 28px auto;
+}
+
+.contact-matrix {
+  display: inline-block;
+  padding: 10px 24px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 4px;
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  transition: border-color 0.3s, color 0.3s;
+  margin-top: 8px;
+}
+.contact-matrix:hover {
+  border-color: rgba(255,255,255,0.4);
+  color: #e4e4e8;
+}
+
+.contact-note {
+  font-size: 0.6rem;
+  color: var(--text-vdim);
+  margin-top: 8px;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
 }
 
 /* Pulse dot */
@@ -309,6 +342,14 @@ body::before {
 
   <div class="contact">
     <a href="mailto:kontakt@cyrber.pl">kontakt@cyrber.pl</a>
+    <div class="contact-divider"></div>
+    <a href="https://chat.cyrber.pl/#/room/#kontakt:matrix.cyrber.pl"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="contact-matrix">
+      💬 Napisz do nas · Matrix
+    </a>
+    <p class="contact-note">Komunikacja szyfrowana E2E · Self-hosted · Protokół Matrix</p>
   </div>
 
 </div>
