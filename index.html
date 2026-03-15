@@ -336,14 +336,6 @@ body::before {
   border-color: rgba(255,255,255,0.35);
   color: #e4e4e8;
 }
-.contact-btn--blue {
-  border-color: rgba(59,130,246,0.35);
-  color: #93c5fd;
-}
-.contact-btn--blue:hover {
-  border-color: rgba(59,130,246,0.6);
-  color: #fff;
-}
 .contact-sub {
   font-size: 0.48rem;
   color: rgba(255,255,255,0.2);
@@ -662,6 +654,97 @@ body::before {
 }
 
 
+/* Demo modal */
+.demo-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+.demo-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+.demo-modal {
+  width: min(480px, 94vw);
+  height: min(680px, 88vh);
+  background: #0c0c14;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 0 80px rgba(239, 68, 68, 0.06), 0 0 1px rgba(255,255,255,0.1);
+  transform: scale(0.95) translateY(10px);
+  transition: transform 0.3s ease;
+}
+.demo-overlay.active .demo-modal {
+  transform: scale(1) translateY(0);
+}
+.demo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+.demo-header-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+}
+.demo-close {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-dim);
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, color 0.2s;
+  font-family: inherit;
+}
+.demo-close:hover {
+  border-color: rgba(239,68,68,0.4);
+  color: #e4e4e8;
+}
+.demo-iframe-wrap {
+  flex: 1;
+  position: relative;
+  background: #0c0c14;
+}
+.demo-iframe-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #fff;
+  border-radius: 0 0 8px 8px;
+}
+.demo-footer {
+  padding: 8px 18px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  flex-shrink: 0;
+}
+.demo-footer-info {
+  font-size: 0.5rem;
+  color: var(--text-vdim);
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+}
+
 /* Terminal scan */
 .terminal-scan {
   position: fixed;
@@ -808,7 +891,7 @@ body::before {
     </div>
     <div class="contact-item">
       <svg class="contact-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 10l-4 4l6 6l4-16l-18 7l4 2l2 6l3-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <a href="https://cloud.cyrber.pl/apps/appointments/pub/w41EEBVlvZr407NB/form" target="_blank" rel="noopener noreferrer" class="contact-btn contact-btn--blue" data-pl="Umów demo" data-en="Book demo">Umów demo</a>
+      <button onclick="openDemo()" class="contact-btn" data-pl="Umów demo" data-en="Book demo">Umów demo</button>
       <p class="contact-sub" data-pl="Wideorozmowa · Jitsi" data-en="Video call · Jitsi">Wideorozmowa · Jitsi</p>
     </div>
     <div class="contact-item">
@@ -862,6 +945,20 @@ body::before {
       <span class="chat-footer-info" data-pl="Szyfrowanie TLS · Serwer własny CYRBER · Rozmowa prywatna" data-en="TLS encryption · CYRBER self-hosted · Private conversation">
         Szyfrowanie TLS · Serwer własny CYRBER · Rozmowa prywatna
       </span>
+    </div>
+  </div>
+</div>
+
+<!-- Demo modal -->
+<div class="demo-overlay" id="demoOverlay" onclick="if(event.target===this)closeDemo()" role="dialog" aria-modal="true" aria-label="Demo booking">
+  <div class="demo-modal">
+    <div class="demo-header">
+      <span class="demo-header-title" data-pl="CYRBER · DEMO" data-en="CYRBER · DEMO">CYRBER · DEMO</span>
+      <button class="demo-close" onclick="closeDemo()" title="Zamknij (Esc)" data-pl-title="Zamknij (Esc)" data-en-title="Close (Esc)" aria-label="Close">&#x2715;</button>
+    </div>
+    <div class="demo-iframe-wrap" id="demoIframeWrap"></div>
+    <div class="demo-footer">
+      <span class="demo-footer-info" data-pl="Wideorozmowa przez Jitsi · Serwer własny CYRBER · Potwierdzenie na email" data-en="Video call via Jitsi · CYRBER self-hosted · Email confirmation">Wideorozmowa przez Jitsi · Serwer własny CYRBER · Potwierdzenie na email</span>
     </div>
   </div>
 </div>
@@ -1108,8 +1205,33 @@ body::before {
   });
 
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeChat();
+    if (e.key === 'Escape') { closeChat(); closeDemo(); }
   });
+
+  // --- Demo modal ---
+  var DEMO_URL = 'https://cloud.cyrber.pl/apps/appointments/embed/w41EEBVlvZr407NB/form';
+
+  window.openDemo = function() {
+    var overlay = document.getElementById('demoOverlay');
+    var wrap = document.getElementById('demoIframeWrap');
+    if (!wrap.querySelector('iframe')) {
+      var iframe = document.createElement('iframe');
+      iframe.setAttribute('title', 'CYRBER Demo Booking');
+      iframe.src = DEMO_URL;
+      wrap.appendChild(iframe);
+    }
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeDemo = function() {
+    var overlay = document.getElementById('demoOverlay');
+    var wrap = document.getElementById('demoIframeWrap');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    var iframe = wrap.querySelector('iframe');
+    if (iframe) wrap.removeChild(iframe);
+  };
 
   // --- Rotating quotes ---
   var quotes = {
