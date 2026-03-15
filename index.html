@@ -94,22 +94,22 @@ body::before {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   height: 100vh;
-  padding: 20px 24px;
-  max-width: 700px;
-  gap: 0;
+  padding: 2vh 24px;
+  max-width: 800px;
+  width: 100%;
 }
 
 /* Logo hub — circle + spark + logo */
 .logo-hub {
   position: relative;
-  width: min(38vh, 380px);
-  height: min(38vh, 380px);
+  width: min(42vh, 420px);
+  height: min(42vh, 420px);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5vh;
+  margin-bottom: 0;
   animation: emerge 2.5s ease both;
 }
 
@@ -177,11 +177,11 @@ body::before {
 
 /* Motto */
 .motto {
-  font-size: clamp(0.6rem, 1.2vw, 0.75rem);
+  font-size: clamp(0.65rem, 1.3vw, 0.8rem);
   letter-spacing: 0.35em;
   color: var(--text-dim);
   text-align: center;
-  margin-bottom: 1.2vh;
+  margin: 0;
   animation: emerge 2s ease 0.8s both;
 }
 
@@ -190,7 +190,7 @@ body::before {
   width: 40px;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--red), transparent);
-  margin-bottom: 1.2vh;
+  margin: 0;
   animation: emerge 2s ease 1.2s both;
 }
 
@@ -198,7 +198,7 @@ body::before {
 .three {
   display: flex;
   gap: 40px;
-  margin-bottom: 1.2vh;
+  margin: 0;
   animation: emerge 2s ease 1.6s both;
 }
 .three span {
@@ -221,18 +221,26 @@ body::before {
 
 /* Teaser */
 .teaser {
-  font-size: 0.78rem;
-  letter-spacing: 0.15em;
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 900;
+  letter-spacing: 0.3em;
   color: var(--text-dim);
   text-align: center;
-  margin-bottom: 1.5vh;
-  animation: emerge 2s ease 2s both;
+  margin: 0;
+  animation: emerge 2s ease 2s both, breathe 4s ease-in-out 4s infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 0.6; text-shadow: 0 0 0 transparent; }
+  50% { opacity: 1; text-shadow: 0 0 30px rgba(239,68,68,0.15); }
 }
 
 /* Contact */
 .contact {
   animation: emerge 2s ease 2.4s both;
   text-align: center;
+  margin: 0;
 }
 .contact a {
   font-size: 0.72rem;
@@ -249,7 +257,7 @@ body::before {
   width: 40px;
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(239,68,68,0.3), transparent);
-  margin: 0.8vh auto;
+  margin: 6px auto;
 }
 
 .element-logo {
@@ -633,18 +641,6 @@ body::before {
   letter-spacing: 0.05em;
 }
 
-/* Pulse dot */
-.pulse {
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  background: var(--red);
-  border-radius: 50%;
-  margin-right: 8px;
-  vertical-align: middle;
-  animation: pulse 3s ease-in-out infinite;
-}
-
 @keyframes emerge {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
@@ -720,7 +716,7 @@ body::before {
     <span>FATUM</span>
   </div>
 
-  <div class="teaser"><span class="pulse"></span><span data-pl="NADCHODZI" data-en="COMING SOON">NADCHODZI</span></div>
+  <div class="teaser" data-pl="NADCHODZI" data-en="COMING SOON">NADCHODZI</div>
 
   <div class="contact">
     <button onclick="openChat()" class="contact-matrix">
