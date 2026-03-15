@@ -255,10 +255,8 @@ body::before {
 }
 .teaser-rotate {
   margin-top: 16px;
-  width: 100vw;
+  height: 1.6em;
   position: relative;
-  overflow: hidden;
-  height: 1.8em;
 }
 .teaser-rotate-line {
   font-size: clamp(0.8rem, 1.4vw, 1rem);
@@ -266,21 +264,17 @@ body::before {
   letter-spacing: 0.1em;
   font-style: italic;
   position: absolute;
-  white-space: nowrap;
+  width: 100%;
+  text-align: center;
   opacity: 0;
-  left: 100%;
-  text-shadow: 0 0 12px rgba(239,68,68,0.15);
-  transition: opacity 0.8s ease;
+  text-shadow: 0 0 10px rgba(239,68,68,0.15);
+  transition: opacity 1s ease;
 }
 .teaser-rotate-line.active {
   opacity: 1;
-  animation: quoteScroll 8s linear forwards, quoteGlow 4s ease-in-out infinite;
+  animation: quoteGlow 3s ease-in-out infinite;
 }
 
-@keyframes quoteScroll {
-  0% { left: 100%; }
-  100% { left: -100%; }
-}
 @keyframes quoteGlow {
   0%, 100% { text-shadow: 0 0 10px rgba(239,68,68,0.15); }
   50% { text-shadow: 0 0 25px rgba(239,68,68,0.4), 0 0 50px rgba(239,68,68,0.1); }
@@ -1138,19 +1132,20 @@ body::before {
   });
 
   var currentQuote = 0;
-  function rotateQuote() {
+  function showQuote() {
     var lines = rotateEl.querySelectorAll('.teaser-rotate-line');
-    lines.forEach(function(l) { l.classList.remove('active'); });
     var qList = quotes[lang];
     lines.forEach(function(l, i) { l.textContent = qList[i]; });
     lines[currentQuote].classList.add('active');
-    currentQuote = (currentQuote + 1) % lines.length;
+
+    setTimeout(function() {
+      lines[currentQuote].classList.remove('active');
+      currentQuote = (currentQuote + 1) % lines.length;
+      setTimeout(showQuote, 1000);
+    }, 3000);
   }
 
-  setTimeout(function() {
-    rotateQuote();
-    setInterval(rotateQuote, 8500);
-  }, 3500);
+  setTimeout(showQuote, 3500);
 
   // --- Terminal scan ---
   var termLines = [
