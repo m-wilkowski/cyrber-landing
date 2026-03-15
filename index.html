@@ -836,6 +836,48 @@ body::before {
   0%, 100% { opacity: 0.06; transform: translate(-50%, -52%) scale(1); }
   50% { opacity: 0.09; transform: translate(-50%, -52%) scale(1.05); }
 }
+
+/* Mobile — portrait phones */
+@media (max-width: 480px) {
+  .container { padding: 1vh 16px; }
+  .logo-hub { width: min(35vh, 240px); height: min(35vh, 240px); }
+  .motto { font-size: 0.5rem; letter-spacing: 0.2em; }
+  .pillars { gap: 12px; }
+  .pillar-name { font-size: 0.6rem; letter-spacing: 0.12em; }
+  .pillar-desc { font-size: 0.48rem; }
+  .pillar-sep { font-size: 0.8rem; }
+  .teaser { font-size: 1.1rem; letter-spacing: 0.15em; }
+  .teaser-tagline { font-size: 0.5rem; letter-spacing: 0.06em; }
+  .teaser-rotate { margin-top: 10px; height: 2.4em; }
+  .teaser-rotate-line { font-size: 0.65rem; white-space: normal; transform: translateX(-50%); width: 85vw; text-align: center; }
+  .contact-grid { width: 95vw; }
+  .contact-btn { width: 100px; font-size: 0.58rem; padding: 7px 0; }
+  .contact-icon { width: 20px; height: 20px; margin-bottom: 6px; }
+  .contact-sub { font-size: 0.4rem; }
+  .terminal-scan { display: none; }
+  .lang-toggle { top: 8px; right: 8px; font-size: 0.5rem; padding: 4px 8px; }
+}
+
+/* Mobile — landscape / short screens */
+@media (max-height: 550px) {
+  .logo-hub { width: min(28vh, 180px); height: min(28vh, 180px); }
+  .motto { font-size: 0.45rem; }
+  .line { display: none; }
+  .pillar-desc { display: none; }
+  .teaser { font-size: 1rem; }
+  .teaser-tagline { display: none; }
+  .teaser-rotate { display: none; }
+  .contact-icon { display: none; }
+  .contact-sub { display: none; }
+  .terminal-scan { display: none; }
+}
+
+/* Tablet */
+@media (min-width: 481px) and (max-width: 768px) {
+  .terminal-scan { width: 180px; font-size: 0.5rem; }
+  .logo-hub { width: min(38vh, 320px); height: min(38vh, 320px); }
+  .teaser-rotate-line { font-size: 0.75rem; }
+}
 </style>
 </head>
 <body>
