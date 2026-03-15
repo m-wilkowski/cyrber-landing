@@ -25,8 +25,8 @@ body {
   background: var(--bg);
   color: #e4e4e8;
   font-family: 'Share Tech Mono', monospace;
-  min-height: 100vh;
-  overflow-x: hidden;
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,19 +94,22 @@ body::before {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 12px 24px;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px 24px;
   max-width: 700px;
+  gap: 0;
 }
 
 /* Logo hub — circle + spark + logo */
 .logo-hub {
   position: relative;
-  width: min(320px, 60vw);
-  height: min(320px, 60vw);
+  width: min(38vh, 380px);
+  height: min(38vh, 380px);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
+  margin-bottom: 1.5vh;
   animation: emerge 2.5s ease both;
 }
 
@@ -178,7 +181,7 @@ body::before {
   letter-spacing: 0.35em;
   color: var(--text-dim);
   text-align: center;
-  margin-bottom: 14px;
+  margin-bottom: 1.2vh;
   animation: emerge 2s ease 0.8s both;
 }
 
@@ -187,7 +190,7 @@ body::before {
   width: 40px;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--red), transparent);
-  margin-bottom: 14px;
+  margin-bottom: 1.2vh;
   animation: emerge 2s ease 1.2s both;
 }
 
@@ -195,7 +198,7 @@ body::before {
 .three {
   display: flex;
   gap: 40px;
-  margin-bottom: 16px;
+  margin-bottom: 1.2vh;
   animation: emerge 2s ease 1.6s both;
 }
 .three span {
@@ -222,7 +225,7 @@ body::before {
   letter-spacing: 0.15em;
   color: var(--text-dim);
   text-align: center;
-  margin-bottom: 18px;
+  margin-bottom: 1.5vh;
   animation: emerge 2s ease 2s both;
 }
 
@@ -246,7 +249,7 @@ body::before {
   width: 40px;
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(239,68,68,0.3), transparent);
-  margin: 10px auto;
+  margin: 0.8vh auto;
 }
 
 .element-logo {
@@ -595,7 +598,7 @@ body::before {
 /* Demo booking */
 .demo-booking {
   max-width: 400px;
-  margin: 0.25rem auto;
+  margin: 0 auto;
   text-align: center;
 }
 .demo-label {
