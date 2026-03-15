@@ -28,9 +28,8 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding-top: 2vh;
 }
 
 /* Scan lines */
@@ -229,19 +228,345 @@ body::before {
   margin: 28px auto;
 }
 
-/* Matrix widget */
-.matrix-widget-container {
-  max-width: 700px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+.contact-matrix {
+  display: inline-block;
+  padding: 10px 24px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 4px;
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  transition: border-color 0.3s, color 0.3s;
+  margin-top: 8px;
+  cursor: pointer;
+  background: none;
+  font-family: inherit;
+}
+.contact-matrix:hover {
+  border-color: rgba(255,255,255,0.4);
+  color: #e4e4e8;
 }
 
-.matrix-label {
-  font-size: 0.7rem;
-  color: rgba(255,255,255,0.3);
-  text-align: center;
-  margin-bottom: 0.75rem;
+.contact-note {
+  font-size: 0.6rem;
+  color: var(--text-vdim);
+  margin-top: 8px;
   letter-spacing: 0.05em;
+  opacity: 0.7;
+}
+
+/* Chat modal */
+.chat-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+.chat-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.chat-modal {
+  width: min(440px, 92vw);
+  height: min(620px, 85vh);
+  background: #0c0c14;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 0 80px rgba(239, 68, 68, 0.06), 0 0 1px rgba(255,255,255,0.1);
+  transform: scale(0.95) translateY(10px);
+  transition: transform 0.3s ease;
+}
+.chat-overlay.active .chat-modal {
+  transform: scale(1) translateY(0);
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+.chat-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.chat-header-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+}
+.chat-status {
+  font-size: 0.55rem;
+  color: var(--text-vdim);
+  letter-spacing: 0.05em;
+}
+.chat-status-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--red);
+  margin-right: 4px;
+  vertical-align: middle;
+  animation: pulse 3s ease-in-out infinite;
+}
+.chat-close {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-dim);
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, color 0.2s;
+  font-family: inherit;
+}
+.chat-close:hover {
+  border-color: rgba(239,68,68,0.4);
+  color: #e4e4e8;
+}
+
+/* Chat messages area */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.08) transparent;
+}
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar-track { background: transparent; }
+.chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+
+.chat-msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  word-wrap: break-word;
+}
+.chat-msg-them {
+  align-self: flex-start;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--text);
+}
+.chat-msg-me {
+  align-self: flex-end;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.12);
+  color: #e4e4e8;
+}
+.chat-msg-sender {
+  font-size: 0.6rem;
+  color: var(--red);
+  margin-bottom: 4px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.chat-msg-time {
+  font-size: 0.5rem;
+  color: var(--text-vdim);
+  margin-top: 4px;
+  text-align: right;
+}
+.chat-msg-system {
+  align-self: center;
+  background: none;
+  border: none;
+  color: var(--text-vdim);
+  font-size: 0.6rem;
+  text-align: center;
+  letter-spacing: 0.08em;
+  padding: 6px 0;
+}
+
+/* Chat input */
+.chat-input-wrap {
+  padding: 12px 18px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.chat-input {
+  flex: 1;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 4px;
+  padding: 10px 14px;
+  color: #e4e4e8;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  outline: none;
+  transition: border-color 0.2s;
+  resize: none;
+}
+.chat-input:focus {
+  border-color: rgba(239, 68, 68, 0.3);
+}
+.chat-input::placeholder {
+  color: var(--text-vdim);
+}
+.chat-send {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 4px;
+  color: var(--red);
+  padding: 10px 16px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.75rem;
+  transition: background 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+.chat-send:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+.chat-send:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Chat footer */
+.chat-footer {
+  padding: 8px 18px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.chat-footer-lock {
+  color: rgba(239, 68, 68, 0.4);
+  font-size: 0.7rem;
+}
+.chat-footer-info {
+  font-size: 0.5rem;
+  color: var(--text-vdim);
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+}
+
+/* Welcome screen */
+.chat-welcome {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 28px;
+  gap: 20px;
+  text-align: center;
+}
+.chat-welcome-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--text);
+}
+.chat-welcome-desc {
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  letter-spacing: 0.03em;
+}
+.chat-welcome-input {
+  width: 100%;
+  max-width: 260px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  padding: 12px 16px;
+  color: #e4e4e8;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.78rem;
+  outline: none;
+  text-align: center;
+  letter-spacing: 0.05em;
+  transition: border-color 0.2s;
+}
+.chat-welcome-input:focus {
+  border-color: rgba(239, 68, 68, 0.4);
+}
+.chat-welcome-input::placeholder {
+  color: var(--text-vdim);
+}
+.chat-welcome-start {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 4px;
+  color: var(--red);
+  padding: 11px 32px;
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  transition: background 0.2s, border-color 0.2s;
+}
+.chat-welcome-start:hover {
+  background: rgba(239, 68, 68, 0.18);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+.chat-welcome-start:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.chat-welcome-secure {
+  font-size: 0.52rem;
+  color: var(--text-vdim);
+  letter-spacing: 0.04em;
+  opacity: 0.7;
+  line-height: 1.5;
+}
+
+/* Loading spinner */
+.chat-loading {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: var(--text-vdim);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+}
+.chat-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(239,68,68,0.1);
+  border-top-color: var(--red);
+  border-radius: 50%;
+  animation: orbit 1s linear infinite;
 }
 
 /* Pulse dot */
@@ -332,22 +657,283 @@ body::before {
   <div class="teaser"><span class="pulse"></span>NADCHODZI</div>
 
   <div class="contact">
-    <div class="matrix-widget-container">
-      <p class="matrix-label">
-        Napisz do nas · Komunikacja szyfrowana E2E · Self-hosted · Protokół Matrix
-      </p>
-      <iframe
-        src="https://chat.cyrber.pl/#/room/#support:matrix.cyrber.pl"
-        allow="camera; microphone; display-capture; autoplay"
-        style="width:100%; height:500px; border:none; border-radius:8px;"
-        title="CYRBER Chat">
-      </iframe>
-    </div>
+    <button onclick="openChat()" class="contact-matrix">
+      💬 Napisz do nas · Matrix
+    </button>
+    <p class="contact-note">Połączenie szyfrowane TLS · Serwer własny CYRBER · Protokół Matrix</p>
     <div class="contact-divider"></div>
     <a href="mailto:kontakt@cyrber.pl">kontakt@cyrber.pl</a>
   </div>
 
 </div>
+
+<!-- Chat modal -->
+<div class="chat-overlay" id="chatOverlay" onclick="if(event.target===this)closeChat()">
+  <div class="chat-modal">
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <span class="chat-header-title">CYRBER · KONTAKT</span>
+        <span class="chat-status" id="chatStatus"></span>
+      </div>
+      <button class="chat-close" onclick="closeChat()" title="Zamknij (Esc)">✕</button>
+    </div>
+    <!-- Welcome screen -->
+    <div class="chat-welcome" id="chatWelcome">
+      <span class="chat-welcome-title">WITAJ</span>
+      <span class="chat-welcome-desc">
+        Napisz do nas bezpośrednio.<br>
+        Odpowiadamy tak szybko, jak to możliwe.
+      </span>
+      <input type="text" class="chat-welcome-input" id="chatName"
+             placeholder="Twoje imię" maxlength="30" autocomplete="off">
+      <button class="chat-welcome-start" id="chatStartBtn" onclick="startChat()">
+        ROZPOCZNIJ CZAT
+      </button>
+      <span class="chat-welcome-secure">
+        🔒 Połączenie szyfrowane TLS · Serwer własny CYRBER<br>
+        Rozmowa prywatna — bez śledzenia, bez reklam
+      </span>
+    </div>
+    <!-- Chat area (hidden initially) -->
+    <div class="chat-messages" id="chatMessages" style="display:none">
+      <div class="chat-loading" id="chatLoading">
+        <div class="chat-spinner"></div>
+        <span>Nawiązywanie połączenia...</span>
+      </div>
+    </div>
+    <div class="chat-input-wrap" id="chatInputWrap" style="display:none">
+      <textarea class="chat-input" id="chatInput" placeholder="Napisz wiadomość..." rows="1"></textarea>
+      <button class="chat-send" id="chatSend" onclick="sendMessage()">Wyślij</button>
+    </div>
+    <div class="chat-footer" id="chatFooter" style="display:none">
+      <span class="chat-footer-lock">🔒</span>
+      <span class="chat-footer-info">
+        Połączenie szyfrowane TLS · Serwer własny CYRBER · Rozmowa prywatna
+      </span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var HS = 'https://matrix.cyrber.pl';
+  var ROOM_ALIAS = '#support:matrix.cyrber.pl';
+  var state = { token: null, roomId: null, since: null, polling: false, userId: null, guestName: null };
+
+  function api(method, path, body) {
+    var opts = { method: method, headers: {} };
+    if (state.token) opts.headers['Authorization'] = 'Bearer ' + state.token;
+    if (body) {
+      opts.headers['Content-Type'] = 'application/json';
+      opts.body = JSON.stringify(body);
+    }
+    return fetch(HS + '/_matrix/client/v3' + path, opts).then(function(r) {
+      if (!r.ok) return r.json().then(function(e) { throw e; });
+      return r.json();
+    });
+  }
+
+  function setStatus(html) {
+    document.getElementById('chatStatus').innerHTML = html;
+  }
+
+  function addMsg(sender, body, ts, isMe) {
+    var msgs = document.getElementById('chatMessages');
+    var div = document.createElement('div');
+    if (sender === '__system__') {
+      div.className = 'chat-msg chat-msg-system';
+      div.textContent = body;
+    } else {
+      div.className = 'chat-msg ' + (isMe ? 'chat-msg-me' : 'chat-msg-them');
+      var name = sender.replace(/@(.+):.*/, '$1');
+      if (!isMe) {
+        var s = document.createElement('div');
+        s.className = 'chat-msg-sender';
+        s.textContent = name;
+        div.appendChild(s);
+      }
+      var t = document.createElement('div');
+      t.textContent = body;
+      div.appendChild(t);
+      if (ts) {
+        var time = document.createElement('div');
+        time.className = 'chat-msg-time';
+        var d = new Date(ts);
+        time.textContent = d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+        div.appendChild(time);
+      }
+    }
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function processSync(data) {
+    if (!data.rooms || !data.rooms.join || !data.rooms.join[state.roomId]) return;
+    var room = data.rooms.join[state.roomId];
+    var events = (room.timeline && room.timeline.events) || [];
+    events.forEach(function(ev) {
+      if (ev.type === 'm.room.message' && ev.content && ev.content.body) {
+        addMsg(ev.sender, ev.content.body, ev.origin_server_ts, ev.sender === state.userId);
+      }
+    });
+  }
+
+  function poll() {
+    if (!state.polling) return;
+    var url = '/_matrix/client/v3/sync?timeout=20000';
+    if (state.since) url += '&since=' + encodeURIComponent(state.since);
+    else url += '&filter=' + encodeURIComponent(JSON.stringify({room:{rooms:[state.roomId],timeline:{limit:30}}}));
+
+    var opts = { headers: { 'Authorization': 'Bearer ' + state.token } };
+    fetch(HS + url, opts)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.next_batch) state.since = data.next_batch;
+        processSync(data);
+        if (state.polling) poll();
+      })
+      .catch(function() {
+        if (state.polling) setTimeout(poll, 5000);
+      });
+  }
+
+  function resetChat() {
+    state.polling = false;
+    state.token = null;
+    state.roomId = null;
+    state.since = null;
+    state.userId = null;
+    state.guestName = null;
+    // Reset UI
+    document.getElementById('chatWelcome').style.display = 'flex';
+    document.getElementById('chatMessages').style.display = 'none';
+    document.getElementById('chatInputWrap').style.display = 'none';
+    document.getElementById('chatFooter').style.display = 'none';
+    document.getElementById('chatName').value = '';
+    setStatus('');
+    // Clear messages
+    var msgs = document.getElementById('chatMessages');
+    msgs.innerHTML = '<div class="chat-loading" id="chatLoading"><div class="chat-spinner"></div><span>Nawiązywanie połączenia...</span></div>';
+  }
+
+  function initChat() {
+    // Hide welcome, show chat
+    document.getElementById('chatWelcome').style.display = 'none';
+    document.getElementById('chatMessages').style.display = 'flex';
+    document.getElementById('chatFooter').style.display = 'flex';
+    document.getElementById('chatLoading').style.display = 'flex';
+
+    setStatus('Łączenie...');
+
+    // Register as guest
+    api('POST', '/register?kind=guest', { initial_device_display_name: 'CYRBER Web Chat' })
+      .then(function(reg) {
+        state.token = reg.access_token;
+        state.userId = reg.user_id;
+
+        // Set display name
+        return api('PUT', '/profile/' + encodeURIComponent(state.userId) + '/displayname', {
+          displayname: state.guestName
+        });
+      })
+      .then(function() {
+        // Resolve room alias to ID
+        return api('GET', '/directory/room/' + encodeURIComponent(ROOM_ALIAS));
+      })
+      .then(function(dir) {
+        state.roomId = dir.room_id;
+
+        // Join room
+        return api('POST', '/join/' + encodeURIComponent(state.roomId), {});
+      })
+      .then(function() {
+        // Ready
+        document.getElementById('chatLoading').style.display = 'none';
+        document.getElementById('chatInputWrap').style.display = 'flex';
+        setStatus('<span class="chat-status-dot"></span> ' + state.guestName);
+        addMsg('__system__', 'Połączono z CYRBER. Napisz wiadomość — odpowiemy jak najszybciej.');
+
+        // Send greeting
+        var txnId = 'm' + Date.now();
+        api('PUT', '/rooms/' + encodeURIComponent(state.roomId) + '/send/m.room.message/' + txnId, {
+          msgtype: 'm.text',
+          body: '👋 ' + state.guestName + ' rozpoczyna rozmowę z cyrber.pl'
+        });
+
+        state.polling = true;
+        poll();
+      })
+      .catch(function(err) {
+        console.error('Matrix chat error:', err);
+        document.getElementById('chatLoading').innerHTML =
+          '<span style="color:var(--red)">Nie udało się połączyć</span>' +
+          '<span style="font-size:0.6rem;color:var(--text-vdim)">Spróbuj ponownie lub napisz na kontakt@cyrber.pl</span>';
+        setStatus('Rozłączono');
+      });
+  }
+
+  window.startChat = function() {
+    var nameInput = document.getElementById('chatName');
+    var name = nameInput.value.trim();
+    if (!name) {
+      nameInput.style.borderColor = 'rgba(239,68,68,0.5)';
+      nameInput.focus();
+      return;
+    }
+    state.guestName = name;
+    initChat();
+  };
+
+  window.openChat = function() {
+    document.getElementById('chatOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    if (!state.token) {
+      document.getElementById('chatName').focus();
+    }
+  };
+
+  window.closeChat = function() {
+    document.getElementById('chatOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+    resetChat();
+  };
+
+  window.sendMessage = function() {
+    var input = document.getElementById('chatInput');
+    var text = input.value.trim();
+    if (!text || !state.token || !state.roomId) return;
+    input.value = '';
+    var txnId = 'm' + Date.now();
+    api('PUT', '/rooms/' + encodeURIComponent(state.roomId) + '/send/m.room.message/' + txnId, {
+      msgtype: 'm.text',
+      body: text
+    }).catch(function(err) {
+      console.error('Send error:', err);
+      addMsg('__system__', 'Nie udało się wysłać wiadomości. Spróbuj ponownie.');
+    });
+  };
+
+  // Enter to send / start chat
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('chatInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+    document.getElementById('chatName').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        startChat();
+      }
+    });
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeChat();
+  });
+})();
+</script>
 
 </body>
 </html>
