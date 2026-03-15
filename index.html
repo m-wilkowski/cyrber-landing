@@ -14,9 +14,13 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="apple-touch-icon" href="/cyrber-logo.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"CYRBER","url":"https://cyrber.pl","logo":"https://cyrber.pl/cyrber-logo.png","description":"Autonomiczna platforma cyberbezpieczeństwa. Atakuje Twoją sieć, zanim zrobi to ktoś inny.","contactPoint":{"@type":"ContactPoint","email":"kontakt@cyrber.pl","contactType":"customer service"}}
+</script>
+<link rel="preload" as="image" href="/cyrber-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap&font-display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -210,6 +214,12 @@ body::before {
 }
 .pillar {
   text-align: center;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.4s;
+}
+.pillar:hover {
+  background: rgba(239, 68, 68, 0.04);
 }
 .pillar-name {
   font-family: 'Orbitron', sans-serif;
@@ -776,6 +786,29 @@ body::before {
   opacity: 0.7;
 }
 
+/* Status line */
+.status-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  animation: emerge 2s ease 3s both;
+}
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-vdim);
+  transition: background 0.5s;
+}
+.status-dot.online { background: #22c55e; box-shadow: 0 0 6px rgba(34,197,94,0.4); }
+.status-dot.offline { background: var(--red); }
+.status-text {
+  font-size: 0.45rem;
+  color: var(--text-vdim);
+  letter-spacing: 0.06em;
+}
+
 /* Terminal scan */
 .terminal-scan {
   position: fixed;
@@ -987,6 +1020,11 @@ body::before {
     </div>
   </div>
 
+  <div class="status-line" id="statusLine">
+    <span class="status-dot" id="statusDot"></span>
+    <span class="status-text" id="statusText" data-pl="Sprawdzanie systemów..." data-en="Checking systems...">Sprawdzanie systemów...</span>
+  </div>
+
 </div>
 
 <!-- Chat modal -->
@@ -1151,7 +1189,9 @@ body::before {
     var events = (room.timeline && room.timeline.events) || [];
     events.forEach(function(ev) {
       if (ev.type === 'm.room.message' && ev.content && ev.content.body) {
-        addMsg(ev.sender, ev.content.body, ev.origin_server_ts, ev.sender === state.userId);
+        var isMe = ev.sender === state.userId;
+        addMsg(ev.sender, ev.content.body, ev.origin_server_ts, isMe);
+        if (!isMe) playNotification();
       }
     });
   }
@@ -1166,7 +1206,7 @@ body::before {
     fetch(HS + url, opts)
       .then(function(r) { return r.json(); })
       .then(function(data) {
-        if (data.next_batch) state.since = data.next_batch;
+        if (data.next_batch) { state.since = data.next_batch; saveSession(); }
         processSync(data);
         if (state.polling) poll();
       })
@@ -1175,13 +1215,45 @@ body::before {
       });
   }
 
-  function resetChat() {
-    state.polling = false;
-    state.token = null;
-    state.roomId = null;
-    state.since = null;
-    state.userId = null;
-    state.guestName = null;
+  // Notification sound (short beep via Web Audio API)
+  function playNotification() {
+    try {
+      var ctx = new (window.AudioContext || window.webkitAudioContext)();
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.frequency.value = 660;
+      gain.gain.value = 0.08;
+      osc.start();
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+      osc.stop(ctx.currentTime + 0.3);
+    } catch(e) {}
+  }
+
+  // Session persistence
+  function saveSession() {
+    if (state.token) {
+      sessionStorage.setItem('cyrber-chat', JSON.stringify({
+        token: state.token, roomId: state.roomId, since: state.since,
+        userId: state.userId, guestName: state.guestName
+      }));
+    }
+  }
+
+  function loadSession() {
+    try {
+      var s = JSON.parse(sessionStorage.getItem('cyrber-chat'));
+      if (s && s.token) { state.token = s.token; state.roomId = s.roomId; state.since = s.since; state.userId = s.userId; state.guestName = s.guestName; return true; }
+    } catch(e) {}
+    return false;
+  }
+
+  function clearSession() {
+    sessionStorage.removeItem('cyrber-chat');
+  }
+
+  function resetChatUI() {
     document.getElementById('chatWelcome').style.display = 'flex';
     document.getElementById('chatMessages').style.display = 'none';
     document.getElementById('chatInputWrap').style.display = 'none';
@@ -1232,6 +1304,7 @@ body::before {
         });
 
         state.polling = true;
+        saveSession();
         poll();
       })
       .catch(function(err) {
@@ -1260,7 +1333,17 @@ body::before {
   window.openChat = function() {
     document.getElementById('chatOverlay').classList.add('active');
     document.body.style.overflow = 'hidden';
-    if (!state.token) {
+
+    // Resume existing session
+    if (!state.token && loadSession()) {
+      document.getElementById('chatWelcome').style.display = 'none';
+      document.getElementById('chatMessages').style.display = 'flex';
+      document.getElementById('chatInputWrap').style.display = 'flex';
+      document.getElementById('chatFooter').style.display = 'flex';
+      document.getElementById('chatLoading').style.display = 'none';
+      setStatus('<span class="chat-status-dot"></span> ' + state.guestName);
+      if (!state.polling) { state.polling = true; poll(); }
+    } else if (!state.token) {
       document.getElementById('chatName').focus();
     }
   };
@@ -1268,7 +1351,17 @@ body::before {
   window.closeChat = function() {
     document.getElementById('chatOverlay').classList.remove('active');
     document.body.style.overflow = '';
-    resetChat();
+    // Session preserved — user can reopen and continue
+  };
+
+  window.endChat = function() {
+    state.polling = false;
+    state.token = null; state.roomId = null; state.since = null;
+    state.userId = null; state.guestName = null;
+    clearSession();
+    resetChatUI();
+    document.getElementById('chatOverlay').classList.remove('active');
+    document.body.style.overflow = '';
   };
 
   window.sendMessage = function() {
@@ -1362,6 +1455,29 @@ body::before {
   }
 
   setTimeout(showQuote, 3500);
+
+  // --- Status check ---
+  function checkStatus() {
+    fetch(HS + '/_matrix/client/versions', { mode: 'cors' })
+      .then(function(r) {
+        if (r.ok) {
+          document.getElementById('statusDot').className = 'status-dot online';
+          var txt = lang === 'pl' ? 'Wszystkie systemy operacyjne' : 'All systems operational';
+          document.getElementById('statusText').textContent = txt;
+          document.getElementById('statusText').setAttribute('data-pl', 'Wszystkie systemy operacyjne');
+          document.getElementById('statusText').setAttribute('data-en', 'All systems operational');
+        } else { throw new Error(); }
+      })
+      .catch(function() {
+        document.getElementById('statusDot').className = 'status-dot offline';
+        var txt = lang === 'pl' ? 'Serwer niedostępny' : 'Server unavailable';
+        document.getElementById('statusText').textContent = txt;
+        document.getElementById('statusText').setAttribute('data-pl', 'Serwer niedostępny');
+        document.getElementById('statusText').setAttribute('data-en', 'Server unavailable');
+      });
+  }
+  setTimeout(checkStatus, 2000);
+  setInterval(checkStatus, 60000);
 
   // --- Terminal scan ---
   var termLines = [
