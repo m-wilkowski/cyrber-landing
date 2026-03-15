@@ -32,7 +32,8 @@ body {
   color: #e4e4e8;
   font-family: 'Share Tech Mono', monospace;
   height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -261,7 +262,7 @@ body::before {
 }
 .teaser-rotate {
   margin-top: 16px;
-  height: 1.6em;
+  min-height: 1.6em;
   position: relative;
 }
 .teaser-rotate-line {
@@ -839,27 +840,40 @@ body::before {
 
 /* Mobile — portrait phones */
 @media (max-width: 480px) {
-  .container { padding: 1vh 16px; }
-  .logo-hub { width: min(35vh, 240px); height: min(35vh, 240px); }
-  .motto { font-size: 0.5rem; letter-spacing: 0.2em; }
-  .pillars { gap: 12px; }
-  .pillar-name { font-size: 0.6rem; letter-spacing: 0.12em; }
-  .pillar-desc { font-size: 0.48rem; }
+  body { height: auto; min-height: 100vh; }
+  .container { height: auto; min-height: 100vh; padding: 3vh 16px; }
+  .logo-hub { width: min(32vh, 220px); height: min(32vh, 220px); }
+  .motto { font-size: 0.48rem; letter-spacing: 0.15em; }
+  .pillars { gap: 10px; }
+  .pillar-name { font-size: 0.6rem; letter-spacing: 0.1em; }
+  .pillar-desc { font-size: 0.45rem; }
   .pillar-sep { font-size: 0.8rem; }
   .teaser { font-size: 1.1rem; letter-spacing: 0.15em; }
-  .teaser-tagline { font-size: 0.5rem; letter-spacing: 0.06em; }
-  .teaser-rotate { margin-top: 10px; height: 2.4em; }
-  .teaser-rotate-line { font-size: 0.65rem; white-space: normal; transform: translateX(-50%); width: 85vw; text-align: center; }
-  .contact-grid { width: 95vw; }
-  .contact-btn { width: 100px; font-size: 0.58rem; padding: 7px 0; }
-  .contact-icon { width: 20px; height: 20px; margin-bottom: 6px; }
-  .contact-sub { font-size: 0.4rem; }
+  .teaser-tagline { font-size: 0.48rem; letter-spacing: 0.04em; }
+  .teaser-rotate { margin-top: 8px; min-height: 3em; }
+  .teaser-rotate-line { font-size: 0.6rem; white-space: normal; transform: translateX(-50%); width: 88vw; text-align: center; line-height: 1.5; }
+  .contact-grid { width: 92vw; }
+  .contact-btn { width: 90px; font-size: 0.55rem; padding: 7px 0; }
+  .contact-item { padding: 0 8px; }
+  .contact-icon { width: 18px; height: 18px; margin-bottom: 6px; }
+  .contact-sub { font-size: 0.38rem; }
   .terminal-scan { display: none; }
   .lang-toggle { top: 8px; right: 8px; font-size: 0.5rem; padding: 4px 8px; }
 }
 
+/* Very small phones */
+@media (max-width: 360px) {
+  .motto { font-size: 0.42rem; letter-spacing: 0.1em; }
+  .contact-btn { width: 76px; font-size: 0.48rem; padding: 6px 0; }
+  .contact-item { padding: 0 4px; }
+  .pillar-name { font-size: 0.52rem; letter-spacing: 0.08em; }
+  .teaser { font-size: 0.95rem; letter-spacing: 0.1em; }
+}
+
 /* Mobile — landscape / short screens */
 @media (max-height: 550px) {
+  body { height: auto; min-height: 100vh; }
+  .container { height: auto; min-height: 100vh; }
   .logo-hub { width: min(28vh, 180px); height: min(28vh, 180px); }
   .motto { font-size: 0.45rem; }
   .line { display: none; }
