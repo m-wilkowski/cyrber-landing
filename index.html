@@ -12,7 +12,8 @@
 <meta property="og:url" content="https://cyrber.pl">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" type="image/png" href="/cyrber-logo.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/cyrber-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -31,9 +32,8 @@ body {
   background: var(--bg);
   color: #e4e4e8;
   font-family: 'Share Tech Mono', monospace;
-  height: 100vh;
+  min-height: 100vh;
   overflow-x: hidden;
-  overflow-y: auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -102,7 +102,7 @@ body::before {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  height: 100vh;
+  min-height: 100vh;
   padding: 2vh 24px;
   max-width: 800px;
   width: 100%;
