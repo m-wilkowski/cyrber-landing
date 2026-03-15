@@ -672,8 +672,7 @@ body::before {
   visibility: visible;
 }
 .demo-modal {
-  width: min(480px, 94vw);
-  height: min(680px, 88vh);
+  width: min(420px, 90vw);
   background: #0c0c14;
   border: 1px solid rgba(239, 68, 68, 0.15);
   border-radius: 8px;
@@ -721,28 +720,52 @@ body::before {
   border-color: rgba(239,68,68,0.4);
   color: #e4e4e8;
 }
-.demo-iframe-wrap {
+.demo-content {
   flex: 1;
-  position: relative;
-  background: #0c0c14;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 32px;
+  gap: 24px;
+  text-align: center;
 }
-.demo-iframe-wrap iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  background: #fff;
-  border-radius: 0 0 8px 8px;
+.demo-content-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--text);
 }
-.demo-footer {
-  padding: 8px 18px;
-  border-top: 1px solid rgba(255,255,255,0.04);
-  flex-shrink: 0;
+.demo-content-desc {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+  letter-spacing: 0.03em;
 }
-.demo-footer-info {
-  font-size: 0.5rem;
+.demo-content-btn {
+  display: inline-block;
+  padding: 14px 40px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 4px;
+  color: var(--red);
+  text-decoration: none;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  transition: background 0.2s, border-color 0.2s;
+}
+.demo-content-btn:hover {
+  background: rgba(239, 68, 68, 0.18);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+.demo-content-info {
+  font-size: 0.55rem;
   color: var(--text-vdim);
   letter-spacing: 0.04em;
-  line-height: 1.4;
+  opacity: 0.7;
 }
 
 /* Terminal scan */
@@ -956,9 +979,21 @@ body::before {
       <span class="demo-header-title" data-pl="CYRBER · DEMO" data-en="CYRBER · DEMO">CYRBER · DEMO</span>
       <button class="demo-close" onclick="closeDemo()" title="Zamknij (Esc)" data-pl-title="Zamknij (Esc)" data-en-title="Close (Esc)" aria-label="Close">&#x2715;</button>
     </div>
-    <div class="demo-iframe-wrap" id="demoIframeWrap"></div>
-    <div class="demo-footer">
-      <span class="demo-footer-info" data-pl="Wideorozmowa przez Jitsi · Serwer własny CYRBER · Potwierdzenie na email" data-en="Video call via Jitsi · CYRBER self-hosted · Email confirmation">Wideorozmowa przez Jitsi · Serwer własny CYRBER · Potwierdzenie na email</span>
+    <div class="demo-content">
+      <span class="demo-content-title" data-pl="ZAPLANUJ SPOTKANIE" data-en="SCHEDULE A MEETING">ZAPLANUJ SPOTKANIE</span>
+      <span class="demo-content-desc" data-pl="Pokażę Ci jak działam od środka.&lt;br&gt;Wideorozmowa 1:1 przez Jitsi — serwer własny CYRBER." data-en="I'll show you how I work from the inside.&lt;br&gt;1:1 video call via Jitsi — CYRBER self-hosted.">
+        Pokażę Ci jak działam od środka.<br>
+        Wideorozmowa 1:1 przez Jitsi — serwer własny CYRBER.
+      </span>
+      <a href="https://cloud.cyrber.pl/apps/appointments/pub/w41EEBVlvZr407NB/form"
+         target="_blank" rel="noopener noreferrer"
+         class="demo-content-btn"
+         data-pl="Wybierz termin" data-en="Pick a time slot">
+        Wybierz termin
+      </a>
+      <span class="demo-content-info" data-pl="Potwierdzenie na email · Bez rejestracji · Bez zobowiązań" data-en="Email confirmation · No registration · No obligations">
+        Potwierdzenie na email · Bez rejestracji · Bez zobowiązań
+      </span>
     </div>
   </div>
 </div>
@@ -1209,28 +1244,12 @@ body::before {
   });
 
   // --- Demo modal ---
-  var DEMO_URL = 'https://cloud.cyrber.pl/apps/appointments/embed/w41EEBVlvZr407NB/form';
-
   window.openDemo = function() {
-    var overlay = document.getElementById('demoOverlay');
-    var wrap = document.getElementById('demoIframeWrap');
-    if (!wrap.querySelector('iframe')) {
-      var iframe = document.createElement('iframe');
-      iframe.setAttribute('title', 'CYRBER Demo Booking');
-      iframe.src = DEMO_URL;
-      wrap.appendChild(iframe);
-    }
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
+    document.getElementById('demoOverlay').classList.add('active');
   };
 
   window.closeDemo = function() {
-    var overlay = document.getElementById('demoOverlay');
-    var wrap = document.getElementById('demoIframeWrap');
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
-    var iframe = wrap.querySelector('iframe');
-    if (iframe) wrap.removeChild(iframe);
+    document.getElementById('demoOverlay').classList.remove('active');
   };
 
   // --- Rotating quotes ---
