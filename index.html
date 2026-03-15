@@ -48,6 +48,29 @@ body::before {
   z-index: 100;
 }
 
+/* Language toggle */
+.lang-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 150;
+  background: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  color: var(--text-vdim);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: border-color 0.3s, color 0.3s;
+}
+.lang-toggle:hover {
+  border-color: rgba(255,255,255,0.3);
+  color: var(--text);
+}
+
 /* Red glow behind logo — pulsing */
 .glow {
   position: fixed;
@@ -71,19 +94,19 @@ body::before {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 24px;
+  padding: 12px 24px;
   max-width: 700px;
 }
 
 /* Logo hub — circle + spark + logo */
 .logo-hub {
   position: relative;
-  width: min(420px, 75vw);
-  height: min(420px, 75vw);
+  width: min(320px, 60vw);
+  height: min(320px, 60vw);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   animation: emerge 2.5s ease both;
 }
 
@@ -133,7 +156,6 @@ body::before {
   height: 82%;
   border-radius: 50%;
   overflow: hidden;
-  /* Radial gradient overlay: transparent center, fades to page bg at edges */
   background: var(--bg);
 }
 .logo-circle img {
@@ -143,7 +165,6 @@ body::before {
   display: block;
   filter: drop-shadow(0 0 40px rgba(239,68,68,0.1));
   transition: filter 0.6s;
-  /* Mask: fade edges to transparent so it blends into the circle */
   mask-image: radial-gradient(circle, #000 50%, transparent 72%);
   -webkit-mask-image: radial-gradient(circle, #000 50%, transparent 72%);
 }
@@ -153,11 +174,11 @@ body::before {
 
 /* Motto */
 .motto {
-  font-size: clamp(0.65rem, 1.4vw, 0.82rem);
+  font-size: clamp(0.6rem, 1.2vw, 0.75rem);
   letter-spacing: 0.35em;
   color: var(--text-dim);
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
   animation: emerge 2s ease 0.8s both;
 }
 
@@ -166,7 +187,7 @@ body::before {
   width: 40px;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--red), transparent);
-  margin-bottom: 20px;
+  margin-bottom: 14px;
   animation: emerge 2s ease 1.2s both;
 }
 
@@ -174,7 +195,7 @@ body::before {
 .three {
   display: flex;
   gap: 40px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   animation: emerge 2s ease 1.6s both;
 }
 .three span {
@@ -201,7 +222,7 @@ body::before {
   letter-spacing: 0.15em;
   color: var(--text-dim);
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
   animation: emerge 2s ease 2s both;
 }
 
@@ -225,7 +246,7 @@ body::before {
   width: 40px;
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(239,68,68,0.3), transparent);
-  margin: 14px auto;
+  margin: 10px auto;
 }
 
 .element-logo {
@@ -245,7 +266,6 @@ body::before {
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   transition: border-color 0.3s, color 0.3s;
-  margin-top: 8px;
   cursor: pointer;
   background: none;
   font-family: inherit;
@@ -256,9 +276,9 @@ body::before {
 }
 
 .contact-note {
-  font-size: 0.6rem;
+  font-size: 0.55rem;
   color: var(--text-vdim);
-  margin-top: 8px;
+  margin-top: 6px;
   letter-spacing: 0.05em;
   opacity: 0.7;
 }
@@ -579,25 +599,25 @@ body::before {
 /* Demo booking */
 .demo-booking {
   max-width: 400px;
-  margin: 0.5rem auto;
+  margin: 0.25rem auto;
   text-align: center;
 }
 .demo-label {
-  font-size: 0.75rem;
-  color: rgba(255,255,255,0.5);
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.4);
   letter-spacing: 0.08em;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   text-transform: uppercase;
 }
 .demo-btn {
   display: inline-block;
-  padding: 12px 32px;
+  padding: 10px 28px;
   background: rgba(59,130,246,0.15);
   border: 1px solid rgba(59,130,246,0.4);
   border-radius: 4px;
   color: #93c5fd;
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   letter-spacing: 0.08em;
   font-family: inherit;
   transition: background 0.2s, border-color 0.2s;
@@ -608,9 +628,9 @@ body::before {
   color: #fff;
 }
 .demo-note {
-  font-size: 0.65rem;
+  font-size: 0.55rem;
   color: rgba(255,255,255,0.25);
-  margin-top: 8px;
+  margin-top: 6px;
   letter-spacing: 0.05em;
 }
 
@@ -649,6 +669,8 @@ body::before {
 </style>
 </head>
 <body>
+
+<button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
 
 <div class="glow"></div>
 
@@ -699,26 +721,26 @@ body::before {
     <span>FATUM</span>
   </div>
 
-  <div class="teaser"><span class="pulse"></span>NADCHODZI</div>
+  <div class="teaser"><span class="pulse"></span><span data-pl="NADCHODZI" data-en="COMING SOON">NADCHODZI</span></div>
 
   <div class="contact">
     <button onclick="openChat()" class="contact-matrix">
       <svg class="element-logo" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 1.5a1 1 0 1 1 2 0 6.5 6.5 0 0 1 6.5 6.5 1 1 0 1 1-2 0 4.5 4.5 0 0 0-4.5-4.5 1 1 0 0 1-2 0v-2z" fill="currentColor"/><path d="M1.5 12.5a1 1 0 1 1 0-2 6.5 6.5 0 0 1 6.5-6.5 1 1 0 1 1 0 2A4.5 4.5 0 0 0 3.5 10.5a1 1 0 0 1 0 2h-2z" fill="currentColor"/><path d="M12.5 18.5a1 1 0 1 1-2 0 6.5 6.5 0 0 1-6.5-6.5 1 1 0 1 1 2 0 4.5 4.5 0 0 0 4.5 4.5 1 1 0 0 1 2 0v2z" fill="currentColor"/><path d="M18.5 7.5a1 1 0 1 1 0 2 6.5 6.5 0 0 1-6.5 6.5 1 1 0 1 1 0-2 4.5 4.5 0 0 0 4.5-4.5 1 1 0 0 1 0-2h2z" fill="currentColor"/></svg>
-      Napisz do nas · Element
+      <span data-pl="Napisz do nas" data-en="Contact us">Napisz do nas</span> · Element
     </button>
-    <p class="contact-note">Połączenie szyfrowane TLS · Serwer własny CYRBER · Protokół Matrix</p>
+    <p class="contact-note" data-pl="Szyfrowanie TLS · Serwer własny CYRBER · Protokół Matrix" data-en="TLS encryption · CYRBER self-hosted · Matrix protocol">Szyfrowanie TLS · Serwer własny CYRBER · Protokół Matrix</p>
     <div class="contact-divider"></div>
     <div class="demo-booking">
-      <p class="demo-label">Umów wideorozmowę demonstracyjną</p>
+      <p class="demo-label" data-pl="Umów wideorozmowę demonstracyjną" data-en="Schedule a demo video call">Umów wideorozmowę demonstracyjną</p>
       <a href="https://cloud.cyrber.pl/apps/appointments/pub/w41EEBVlvZr407NB/form"
          target="_blank"
          rel="noopener noreferrer"
-         class="demo-btn">
+         class="demo-btn"
+         data-pl="Zarezerwuj termin"
+         data-en="Book a slot">
         Zarezerwuj termin
       </a>
-      <p class="demo-note">
-        Spotkanie przez Jitsi · Self-hosted · Potwierdzenie na email
-      </p>
+      <p class="demo-note" data-pl="Spotkanie przez Jitsi · Serwer własny · Potwierdzenie na email" data-en="Meeting via Jitsi · Self-hosted · Email confirmation">Spotkanie przez Jitsi · Serwer własny · Potwierdzenie na email</p>
     </div>
     <div class="contact-divider"></div>
     <a href="mailto:kontakt@cyrber.pl">kontakt@cyrber.pl</a>
@@ -734,22 +756,22 @@ body::before {
         <span class="chat-header-title">CYRBER · KONTAKT</span>
         <span class="chat-status" id="chatStatus"></span>
       </div>
-      <button class="chat-close" onclick="closeChat()" title="Zamknij (Esc)">✕</button>
+      <button class="chat-close" onclick="closeChat()" title="Zamknij (Esc)">&#x2715;</button>
     </div>
     <!-- Welcome screen -->
     <div class="chat-welcome" id="chatWelcome">
-      <span class="chat-welcome-title">WITAJ</span>
-      <span class="chat-welcome-desc">
+      <span class="chat-welcome-title" data-pl="WITAJ" data-en="WELCOME">WITAJ</span>
+      <span class="chat-welcome-desc" data-pl="Napisz do nas bezpośrednio.&lt;br&gt;Odpowiadamy tak szybko, jak to możliwe." data-en="Write to us directly.&lt;br&gt;We respond as quickly as possible.">
         Napisz do nas bezpośrednio.<br>
         Odpowiadamy tak szybko, jak to możliwe.
       </span>
       <input type="text" class="chat-welcome-input" id="chatName"
-             placeholder="Twoje imię" maxlength="30" autocomplete="off">
-      <button class="chat-welcome-start" id="chatStartBtn" onclick="startChat()">
+             placeholder="Twoje imię" data-pl-placeholder="Twoje imię" data-en-placeholder="Your name" maxlength="30" autocomplete="off">
+      <button class="chat-welcome-start" id="chatStartBtn" onclick="startChat()" data-pl="ROZPOCZNIJ CZAT" data-en="START CHAT">
         ROZPOCZNIJ CZAT
       </button>
-      <span class="chat-welcome-secure">
-        🔒 Połączenie szyfrowane TLS · Serwer własny CYRBER<br>
+      <span class="chat-welcome-secure" data-pl="Szyfrowanie TLS · Serwer własny CYRBER&lt;br&gt;Rozmowa prywatna — bez śledzenia, bez reklam" data-en="TLS encryption · CYRBER self-hosted&lt;br&gt;Private conversation — no tracking, no ads">
+        Szyfrowanie TLS · Serwer własny CYRBER<br>
         Rozmowa prywatna — bez śledzenia, bez reklam
       </span>
     </div>
@@ -757,17 +779,16 @@ body::before {
     <div class="chat-messages" id="chatMessages" style="display:none">
       <div class="chat-loading" id="chatLoading">
         <div class="chat-spinner"></div>
-        <span>Nawiązywanie połączenia...</span>
+        <span data-pl="Nawiązywanie połączenia..." data-en="Connecting...">Nawiązywanie połączenia...</span>
       </div>
     </div>
     <div class="chat-input-wrap" id="chatInputWrap" style="display:none">
-      <textarea class="chat-input" id="chatInput" placeholder="Napisz wiadomość..." rows="1"></textarea>
-      <button class="chat-send" id="chatSend" onclick="sendMessage()">Wyślij</button>
+      <textarea class="chat-input" id="chatInput" placeholder="Napisz wiadomość..." data-pl-placeholder="Napisz wiadomość..." data-en-placeholder="Type a message..." rows="1"></textarea>
+      <button class="chat-send" id="chatSend" onclick="sendMessage()" data-pl="Wyślij" data-en="Send">Wyślij</button>
     </div>
     <div class="chat-footer" id="chatFooter" style="display:none">
-      <span class="chat-footer-lock">🔒</span>
-      <span class="chat-footer-info">
-        Połączenie szyfrowane TLS · Serwer własny CYRBER · Rozmowa prywatna
+      <span class="chat-footer-info" data-pl="Szyfrowanie TLS · Serwer własny CYRBER · Rozmowa prywatna" data-en="TLS encryption · CYRBER self-hosted · Private conversation">
+        Szyfrowanie TLS · Serwer własny CYRBER · Rozmowa prywatna
       </span>
     </div>
   </div>
@@ -778,7 +799,33 @@ body::before {
   var HS = 'https://matrix.cyrber.pl';
   var ROOM_ALIAS = '#kontakt-web:matrix.cyrber.pl';
   var state = { token: null, roomId: null, since: null, polling: false, userId: null, guestName: null };
+  var lang = localStorage.getItem('cyrber-lang') || 'pl';
 
+  // --- Language toggle ---
+  function applyLang() {
+    var els = document.querySelectorAll('[data-pl]');
+    els.forEach(function(el) {
+      var val = el.getAttribute('data-' + lang);
+      if (val) el.innerHTML = val;
+    });
+    var inputs = document.querySelectorAll('[data-pl-placeholder]');
+    inputs.forEach(function(el) {
+      var val = el.getAttribute('data-' + lang + '-placeholder');
+      if (val) el.placeholder = val;
+    });
+    document.getElementById('langToggle').textContent = lang === 'pl' ? 'EN' : 'PL';
+    document.documentElement.lang = lang;
+  }
+
+  window.toggleLang = function() {
+    lang = lang === 'pl' ? 'en' : 'pl';
+    localStorage.setItem('cyrber-lang', lang);
+    applyLang();
+  };
+
+  applyLang();
+
+  // --- Matrix chat ---
   function api(method, path, body) {
     var opts = { method: method, headers: {} };
     if (state.token) opts.headers['Authorization'] = 'Bearer ' + state.token;
@@ -863,60 +910,53 @@ body::before {
     state.since = null;
     state.userId = null;
     state.guestName = null;
-    // Reset UI
     document.getElementById('chatWelcome').style.display = 'flex';
     document.getElementById('chatMessages').style.display = 'none';
     document.getElementById('chatInputWrap').style.display = 'none';
     document.getElementById('chatFooter').style.display = 'none';
     document.getElementById('chatName').value = '';
     setStatus('');
-    // Clear messages
     var msgs = document.getElementById('chatMessages');
-    msgs.innerHTML = '<div class="chat-loading" id="chatLoading"><div class="chat-spinner"></div><span>Nawiązywanie połączenia...</span></div>';
+    var loadingText = lang === 'pl' ? 'Nawiązywanie połączenia...' : 'Connecting...';
+    msgs.innerHTML = '<div class="chat-loading" id="chatLoading"><div class="chat-spinner"></div><span>' + loadingText + '</span></div>';
   }
 
   function initChat() {
-    // Hide welcome, show chat
     document.getElementById('chatWelcome').style.display = 'none';
     document.getElementById('chatMessages').style.display = 'flex';
     document.getElementById('chatFooter').style.display = 'flex';
     document.getElementById('chatLoading').style.display = 'flex';
 
-    setStatus('Łączenie...');
+    setStatus(lang === 'pl' ? 'Łączenie...' : 'Connecting...');
 
-    // Register as guest
     api('POST', '/register?kind=guest', { initial_device_display_name: 'CYRBER Web Chat' })
       .then(function(reg) {
         state.token = reg.access_token;
         state.userId = reg.user_id;
-
-        // Set display name
         return api('PUT', '/profile/' + encodeURIComponent(state.userId) + '/displayname', {
           displayname: state.guestName
         });
       })
       .then(function() {
-        // Resolve room alias to ID
         return api('GET', '/directory/room/' + encodeURIComponent(ROOM_ALIAS));
       })
       .then(function(dir) {
         state.roomId = dir.room_id;
-
-        // Join room
         return api('POST', '/join/' + encodeURIComponent(state.roomId), {});
       })
       .then(function() {
-        // Ready
         document.getElementById('chatLoading').style.display = 'none';
         document.getElementById('chatInputWrap').style.display = 'flex';
         setStatus('<span class="chat-status-dot"></span> ' + state.guestName);
-        addMsg('__system__', 'Połączono z CYRBER. Napisz wiadomość — odpowiemy jak najszybciej.');
+        var sysMsg = lang === 'pl'
+          ? 'Połączono z CYRBER. Napisz wiadomość — odpowiemy jak najszybciej.'
+          : 'Connected to CYRBER. Send a message — we will reply as soon as possible.';
+        addMsg('__system__', sysMsg);
 
-        // Send greeting
         var txnId = 'm' + Date.now();
         api('PUT', '/rooms/' + encodeURIComponent(state.roomId) + '/send/m.room.message/' + txnId, {
           msgtype: 'm.text',
-          body: '👋 ' + state.guestName + ' rozpoczyna rozmowę z cyrber.pl'
+          body: state.guestName + ' ' + (lang === 'pl' ? 'rozpoczyna rozmowę z cyrber.pl' : 'started a conversation from cyrber.pl')
         });
 
         state.polling = true;
@@ -924,10 +964,12 @@ body::before {
       })
       .catch(function(err) {
         console.error('Matrix chat error:', err);
+        var errMsg = lang === 'pl' ? 'Nie udało się połączyć' : 'Connection failed';
+        var errHint = lang === 'pl' ? 'Spróbuj ponownie lub napisz na kontakt@cyrber.pl' : 'Try again or email kontakt@cyrber.pl';
         document.getElementById('chatLoading').innerHTML =
-          '<span style="color:var(--red)">Nie udało się połączyć</span>' +
-          '<span style="font-size:0.6rem;color:var(--text-vdim)">Spróbuj ponownie lub napisz na kontakt@cyrber.pl</span>';
-        setStatus('Rozłączono');
+          '<span style="color:var(--red)">' + errMsg + '</span>' +
+          '<span style="font-size:0.6rem;color:var(--text-vdim)">' + errHint + '</span>';
+        setStatus(lang === 'pl' ? 'Rozłączono' : 'Disconnected');
       });
   }
 
@@ -968,11 +1010,11 @@ body::before {
       body: text
     }).catch(function(err) {
       console.error('Send error:', err);
-      addMsg('__system__', 'Nie udało się wysłać wiadomości. Spróbuj ponownie.');
+      var errMsg = lang === 'pl' ? 'Nie udało się wysłać wiadomości. Spróbuj ponownie.' : 'Failed to send message. Try again.';
+      addMsg('__system__', errMsg);
     });
   };
 
-  // Enter to send / start chat
   document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('chatInput').addEventListener('keydown', function(e) {
       if (e.key === 'Enter' && !e.shiftKey) {
