@@ -626,6 +626,38 @@ body::before {
 }
 
 
+/* Terminal scan */
+.terminal-scan {
+  position: fixed;
+  top: 0;
+  width: 200px;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  animation: termFadeIn 3s ease 4s forwards;
+}
+.terminal-scan--left { left: 20px; }
+.terminal-scan--right { right: 20px; text-align: right; }
+
+.terminal-lines {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.5rem;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.04);
+  white-space: nowrap;
+  animation: termScroll 60s linear infinite;
+}
+
+@keyframes termFadeIn {
+  to { opacity: 1; }
+}
+@keyframes termScroll {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
 @keyframes emerge {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
@@ -653,6 +685,13 @@ body::before {
 <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
 
 <div class="glow"></div>
+
+<div class="terminal-scan terminal-scan--left">
+  <div class="terminal-lines" id="termLeft"></div>
+</div>
+<div class="terminal-scan terminal-scan--right">
+  <div class="terminal-lines" id="termRight"></div>
+</div>
 
 <div class="container">
 
@@ -696,17 +735,17 @@ body::before {
   <div class="pillars">
     <div class="pillar">
       <span class="pillar-name">RATIO</span>
-      <span class="pillar-desc" data-pl="Analiza<br>zagrożeń" data-en="Threat<br>analysis">Analiza<br>zagrożeń</span>
+      <span class="pillar-desc" data-pl="Analiza i wykrywanie<br>zagrożeń" data-en="Threat analysis<br>&amp; detection">Analiza i wykrywanie<br>zagrożeń</span>
     </div>
     <span class="pillar-sep">/</span>
     <div class="pillar">
       <span class="pillar-name">ANIMUS</span>
-      <span class="pillar-desc" data-pl="Ochrona<br>infrastruktury" data-en="Infrastructure<br>protection">Ochrona<br>infrastruktury</span>
+      <span class="pillar-desc" data-pl="Ciągły monitoring<br>i ochrona" data-en="Continuous monitoring<br>&amp; protection">Ciągły monitoring<br>i ochrona</span>
     </div>
     <span class="pillar-sep">/</span>
     <div class="pillar">
       <span class="pillar-name">FATUM</span>
-      <span class="pillar-desc" data-pl="Przewidywanie<br>incydentów" data-en="Incident<br>prediction">Przewidywanie<br>incydentów</span>
+      <span class="pillar-desc" data-pl="Automatyczna reakcja<br>na incydenty" data-en="Automated incident<br>response">Automatyczna reakcja<br>na incydenty</span>
     </div>
   </div>
 
@@ -1025,6 +1064,61 @@ body::before {
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeChat();
   });
+
+  // --- Terminal scan ---
+  var termLines = [
+    '> nmap -sS 10.0.0.0/24 ...',
+    '> host up: 10.0.0.1 (gateway)',
+    '> host up: 10.0.0.14 (db-primary)',
+    '> port scan 10.0.0.14:3306 open',
+    '> CVE-2024-21096 detected',
+    '> severity: CRITICAL',
+    '> firewall rule applied: DROP',
+    '> alert sent to SOC team',
+    '> scanning 172.16.0.0/16 ...',
+    '> 2048 hosts discovered',
+    '> analyzing traffic patterns',
+    '> anomaly: port 4444 outbound',
+    '> threat level: HIGH',
+    '> isolating host 172.16.3.22',
+    '> connection terminated',
+    '> system secure',
+    '> dns query: c2.malware.xyz',
+    '> blocked: known C2 domain',
+    '> ssl cert check: expired',
+    '> renewing certificate ...',
+    '> brute force attempt detected',
+    '> src: 203.0.113.42',
+    '> fail2ban: IP banned',
+    '> log integrity: verified',
+    '> backup hash: SHA256 OK',
+    '> uptime: 99.97%',
+    '> zero incidents: 14 days',
+    '> next scan in 30s ...',
+    '> checking TLS 1.3 config',
+    '> HSTS headers: present',
+    '> CSP policy: enforced',
+    '> CORS: restricted',
+    '> WAF rules: 847 active',
+    '> DDoS mitigation: standby',
+    '> honeypot: 3 connections',
+    '> geofence: RU/CN blocked',
+    '> packet inspection: clean',
+    '> memory forensics: clear',
+    '> rootkit scan: negative',
+    '> all systems nominal'
+  ];
+
+  function buildTerminal(id) {
+    var el = document.getElementById(id);
+    var html = '';
+    for (var i = 0; i < 3; i++) {
+      termLines.forEach(function(line) { html += line + '<br>'; });
+    }
+    el.innerHTML = html;
+  }
+  buildTerminal('termLeft');
+  buildTerminal('termRight');
 })();
 </script>
 
