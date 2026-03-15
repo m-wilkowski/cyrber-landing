@@ -253,6 +253,25 @@ body::before {
   letter-spacing: 0.12em;
   margin-top: 10px;
 }
+.teaser-rotate {
+  margin-top: 14px;
+  height: 1.4em;
+  position: relative;
+  overflow: hidden;
+}
+.teaser-rotate-line {
+  font-size: 0.6rem;
+  color: rgba(239,68,68,0.35);
+  letter-spacing: 0.08em;
+  font-style: italic;
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.teaser-rotate-line.active {
+  opacity: 1;
+}
 
 @keyframes breathe {
   0%, 100% { opacity: 0.6; text-shadow: 0 0 0 transparent; }
@@ -753,6 +772,7 @@ body::before {
   <div class="teaser-block">
     <div class="teaser" data-pl="NADCHODZI" data-en="COMING SOON">NADCHODZI</div>
     <p class="teaser-tagline" data-pl="Atakuje Twoją sieć. Zanim zrobi to ktoś inny." data-en="Attacks your network. Before someone else does.">Atakuje Twoją sieć. Zanim zrobi to ktoś inny.</p>
+    <div class="teaser-rotate" id="teaserRotate"></div>
   </div>
 
   <div class="contact-grid">
@@ -1065,6 +1085,50 @@ body::before {
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeChat();
   });
+
+  // --- Rotating quotes ---
+  var quotes = {
+    pl: [
+      'Trzy głowy. Jeden cel. Zero litości dla luk.',
+      'Nie pytaj czy masz luki. Pytaj ile.',
+      'Twój atak. Twoja kontrola. Ich problem.',
+      'Wiemy co znajdzie wróg. Bo znajdujemy to pierwsi.',
+      'Zanim zapytasz "czy jesteśmy bezpieczni" — my już sprawdzamy.',
+      'Każda sieć ma słabe punkty. My je znamy przed Tobą.'
+    ],
+    en: [
+      'Three heads. One goal. Zero mercy for vulnerabilities.',
+      'Don\'t ask if you have gaps. Ask how many.',
+      'Your attack. Your control. Their problem.',
+      'We know what the enemy will find. Because we find it first.',
+      'Before you ask "are we safe" — we\'re already checking.',
+      'Every network has weak spots. We know them before you do.'
+    ]
+  };
+
+  var rotateEl = document.getElementById('teaserRotate');
+  quotes.pl.forEach(function(q, i) {
+    var span = document.createElement('span');
+    span.className = 'teaser-rotate-line';
+    span.textContent = q;
+    span.setAttribute('data-index', i);
+    rotateEl.appendChild(span);
+  });
+
+  var currentQuote = 0;
+  function rotateQuote() {
+    var lines = rotateEl.querySelectorAll('.teaser-rotate-line');
+    lines.forEach(function(l) { l.classList.remove('active'); });
+    var qList = quotes[lang];
+    lines.forEach(function(l, i) { l.textContent = qList[i]; });
+    lines[currentQuote].classList.add('active');
+    currentQuote = (currentQuote + 1) % lines.length;
+  }
+
+  setTimeout(function() {
+    rotateQuote();
+    setInterval(rotateQuote, 4000);
+  }, 3500);
 
   // --- Terminal scan ---
   var termLines = [
