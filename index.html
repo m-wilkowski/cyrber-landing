@@ -6,6 +6,12 @@
 <title>CYRBER</title>
 <meta name="description" content="Videt omnia. Meminit omnia. Iudicat omnia.">
 <meta name="theme-color" content="#0a0a0f">
+<meta property="og:title" content="CYRBER">
+<meta property="og:description" content="Atakuje Twoją sieć. Zanim zrobi to ktoś inny. Autonomiczna platforma cyberbezpieczeństwa.">
+<meta property="og:image" content="https://cyrber.pl/cyrber-logo.png">
+<meta property="og:url" content="https://cyrber.pl">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="/cyrber-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -721,7 +727,7 @@ body::before {
 </head>
 <body>
 
-<button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
+<button class="lang-toggle" id="langToggle" onclick="toggleLang()" aria-label="Switch language / Zmień język">EN</button>
 
 <div class="glow"></div>
 
@@ -796,17 +802,17 @@ body::before {
 
   <div class="contact-grid">
     <div class="contact-item">
-      <svg class="contact-icon" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 1.5a1 1 0 1 1 2 0 6.5 6.5 0 0 1 6.5 6.5 1 1 0 1 1-2 0 4.5 4.5 0 0 0-4.5-4.5 1 1 0 0 1-2 0v-2z" fill="currentColor"/><path d="M1.5 12.5a1 1 0 1 1 0-2 6.5 6.5 0 0 1 6.5-6.5 1 1 0 1 1 0 2A4.5 4.5 0 0 0 3.5 10.5a1 1 0 0 1 0 2h-2z" fill="currentColor"/><path d="M12.5 18.5a1 1 0 1 1-2 0 6.5 6.5 0 0 1-6.5-6.5 1 1 0 1 1 2 0 4.5 4.5 0 0 0 4.5 4.5 1 1 0 0 1 2 0v2z" fill="currentColor"/><path d="M18.5 7.5a1 1 0 1 1 0 2 6.5 6.5 0 0 1-6.5 6.5 1 1 0 1 1 0-2 4.5 4.5 0 0 0 4.5-4.5 1 1 0 0 1 0-2h2z" fill="currentColor"/></svg>
+      <svg class="contact-icon" aria-hidden="true" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 1.5a1 1 0 1 1 2 0 6.5 6.5 0 0 1 6.5 6.5 1 1 0 1 1-2 0 4.5 4.5 0 0 0-4.5-4.5 1 1 0 0 1-2 0v-2z" fill="currentColor"/><path d="M1.5 12.5a1 1 0 1 1 0-2 6.5 6.5 0 0 1 6.5-6.5 1 1 0 1 1 0 2A4.5 4.5 0 0 0 3.5 10.5a1 1 0 0 1 0 2h-2z" fill="currentColor"/><path d="M12.5 18.5a1 1 0 1 1-2 0 6.5 6.5 0 0 1-6.5-6.5 1 1 0 1 1 2 0 4.5 4.5 0 0 0 4.5 4.5 1 1 0 0 1 2 0v2z" fill="currentColor"/><path d="M18.5 7.5a1 1 0 1 1 0 2 6.5 6.5 0 0 1-6.5 6.5 1 1 0 1 1 0-2 4.5 4.5 0 0 0 4.5-4.5 1 1 0 0 1 0-2h2z" fill="currentColor"/></svg>
       <button onclick="openChat()" class="contact-btn" data-pl="Czat · Element" data-en="Chat · Element">Czat · Element</button>
       <p class="contact-sub" data-pl="Szyfrowanie TLS · Matrix" data-en="TLS encryption · Matrix">Szyfrowanie TLS · Matrix</p>
     </div>
     <div class="contact-item">
-      <svg class="contact-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 10l-4 4l6 6l4-16l-18 7l4 2l2 6l3-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg class="contact-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 10l-4 4l6 6l4-16l-18 7l4 2l2 6l3-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <a href="https://cloud.cyrber.pl/apps/appointments/pub/w41EEBVlvZr407NB/form" target="_blank" rel="noopener noreferrer" class="contact-btn contact-btn--blue" data-pl="Umów demo" data-en="Book demo">Umów demo</a>
       <p class="contact-sub" data-pl="Wideorozmowa · Jitsi" data-en="Video call · Jitsi">Wideorozmowa · Jitsi</p>
     </div>
     <div class="contact-item">
-      <svg class="contact-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 7l10 7l10-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <svg class="contact-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 7l10 7l10-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
       <a href="mailto:kontakt@cyrber.pl" class="contact-btn">Email</a>
       <p class="contact-sub">kontakt@cyrber.pl</p>
     </div>
@@ -815,21 +821,21 @@ body::before {
 </div>
 
 <!-- Chat modal -->
-<div class="chat-overlay" id="chatOverlay" onclick="if(event.target===this)closeChat()">
+<div class="chat-overlay" id="chatOverlay" onclick="if(event.target===this)closeChat()" role="dialog" aria-modal="true" aria-label="CYRBER Chat">
   <div class="chat-modal">
     <div class="chat-header">
       <div class="chat-header-left">
         <span class="chat-header-title" data-pl="CYRBER · KONTAKT" data-en="CYRBER · CONTACT">CYRBER · KONTAKT</span>
         <span class="chat-status" id="chatStatus"></span>
       </div>
-      <button class="chat-close" onclick="closeChat()" title="Zamknij (Esc)" data-pl-title="Zamknij (Esc)" data-en-title="Close (Esc)">&#x2715;</button>
+      <button class="chat-close" onclick="closeChat()" title="Zamknij (Esc)" data-pl-title="Zamknij (Esc)" data-en-title="Close (Esc)" aria-label="Close">&#x2715;</button>
     </div>
     <!-- Welcome screen -->
     <div class="chat-welcome" id="chatWelcome">
       <span class="chat-welcome-title" data-pl="WITAJ" data-en="WELCOME">WITAJ</span>
-      <span class="chat-welcome-desc" data-pl="Napisz do nas bezpośrednio.&lt;br&gt;Odpowiadamy tak szybko, jak to możliwe." data-en="Write to us directly.&lt;br&gt;We respond as quickly as possible.">
-        Napisz do nas bezpośrednio.<br>
-        Odpowiadamy tak szybko, jak to możliwe.
+      <span class="chat-welcome-desc" data-pl="Napisz bezpośrednio.&lt;br&gt;Odpowiadam tak szybko, jak to możliwe." data-en="Write directly.&lt;br&gt;I respond as quickly as possible.">
+        Napisz bezpośrednio.<br>
+        Odpowiadam tak szybko, jak to możliwe.
       </span>
       <input type="text" class="chat-welcome-input" id="chatName"
              placeholder="Twoje imię" data-pl-placeholder="Twoje imię" data-en-placeholder="Your name" maxlength="30" autocomplete="off">
@@ -1020,8 +1026,8 @@ body::before {
         document.getElementById('chatInputWrap').style.display = 'flex';
         setStatus('<span class="chat-status-dot"></span> ' + state.guestName);
         var sysMsg = lang === 'pl'
-          ? 'Połączono z CYRBER. Napisz wiadomość — odpowiemy jak najszybciej.'
-          : 'Connected to CYRBER. Send a message — we will reply as soon as possible.';
+          ? 'Połączono z CYRBER. Napisz wiadomość — odpowiem jak najszybciej.'
+          : 'Connected to CYRBER. Send a message — I will reply as soon as possible.';
         addMsg('__system__', sysMsg);
 
         var txnId = 'm' + Date.now();
@@ -1138,7 +1144,10 @@ body::before {
   function showQuote() {
     var lines = rotateEl.querySelectorAll('.teaser-rotate-line');
     var qList = quotes[lang];
-    lines.forEach(function(l, i) { l.textContent = qList[i]; });
+    lines.forEach(function(l, i) {
+      if (!l.classList.contains('active')) l.textContent = qList[i];
+    });
+    lines[currentQuote].textContent = qList[currentQuote];
     lines[currentQuote].classList.add('active');
 
     setTimeout(function() {
