@@ -9,7 +9,7 @@
 <link rel="icon" type="image/png" href="/cyrber-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -218,11 +218,11 @@ body::before {
   color: var(--text);
 }
 .pillar-desc {
-  font-size: 0.55rem;
-  color: rgba(255,255,255,0.25);
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.3);
   letter-spacing: 0.06em;
   line-height: 1.4;
-  font-style: italic;
 }
 .pillar-sep {
   font-family: 'Share Tech Mono', monospace;
@@ -259,16 +259,18 @@ body::before {
   position: relative;
 }
 .teaser-rotate-line {
-  font-size: clamp(0.8rem, 1.4vw, 1rem);
-  color: rgba(239,68,68,0.75);
-  letter-spacing: 0.1em;
-  font-style: italic;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+  color: rgba(200,200,220,0.6);
+  letter-spacing: 0.08em;
+  font-style: normal;
+  font-weight: 400;
   position: absolute;
   width: 100%;
   text-align: center;
   opacity: 0;
-  text-shadow: 0 0 10px rgba(239,68,68,0.15);
-  transition: opacity 1s ease;
+  text-shadow: 0 0 10px rgba(200,200,255,0.08);
+  transition: opacity 1.2s ease;
 }
 .teaser-rotate-line.active {
   opacity: 1;
@@ -276,8 +278,8 @@ body::before {
 }
 
 @keyframes quoteGlow {
-  0%, 100% { text-shadow: 0 0 10px rgba(239,68,68,0.15); }
-  50% { text-shadow: 0 0 25px rgba(239,68,68,0.4), 0 0 50px rgba(239,68,68,0.1); }
+  0%, 100% { text-shadow: 0 0 10px rgba(200,200,255,0.08); }
+  50% { text-shadow: 0 0 20px rgba(200,200,255,0.2), 0 0 40px rgba(200,200,255,0.06); }
 }
 
 @keyframes breathe {
@@ -771,17 +773,17 @@ body::before {
   <div class="pillars">
     <div class="pillar">
       <span class="pillar-name">RATIO</span>
-      <span class="pillar-desc" data-pl="Wykrywa. Analizuje. Eksploatuje." data-en="Detects. Analyzes. Exploits.">Wykrywa. Analizuje. Eksploatuje.</span>
+      <span class="pillar-desc" data-pl="Widzi co jest." data-en="Sees what is.">Widzi co jest.</span>
     </div>
     <span class="pillar-sep">/</span>
     <div class="pillar">
       <span class="pillar-name">ANIMUS</span>
-      <span class="pillar-desc" data-pl="Manipuluje. Testuje. Demaskuje." data-en="Manipulates. Tests. Exposes.">Manipuluje. Testuje. Demaskuje.</span>
+      <span class="pillar-desc" data-pl="Pamięta co było." data-en="Remembers what was.">Pamięta co było.</span>
     </div>
     <span class="pillar-sep">/</span>
     <div class="pillar">
       <span class="pillar-name">FATUM</span>
-      <span class="pillar-desc" data-pl="Pamięta. Przewiduje. Ostrzega." data-en="Remembers. Predicts. Warns.">Pamięta. Przewiduje. Ostrzega.</span>
+      <span class="pillar-desc" data-pl="Wie co będzie." data-en="Knows what will be.">Wie co będzie.</span>
     </div>
   </div>
 
@@ -1105,20 +1107,20 @@ body::before {
   // --- Rotating quotes ---
   var quotes = {
     pl: [
+      'Jedna głowa widzi co jest. Druga pamięta co było. Trzecia wie co będzie.',
       'Trzy głowy. Jeden cel. Zero litości dla luk.',
       'Nie pytaj czy masz luki. Pytaj ile.',
       'Twój atak. Twoja kontrola. Ich problem.',
       'Wiemy co znajdzie wróg. Bo znajdujemy to pierwsi.',
-      'Zanim zapytasz "czy jesteśmy bezpieczni" — my już sprawdzamy.',
-      'Każda sieć ma słabe punkty. My je znamy przed Tobą.'
+      'Żadna dusza nie mogła go oszukać — bo zawsze była obserwowana z trzech stron.'
     ],
     en: [
+      'One head sees what is. Another remembers what was. The third knows what will be.',
       'Three heads. One goal. Zero mercy for vulnerabilities.',
       'Don\'t ask if you have gaps. Ask how many.',
       'Your attack. Your control. Their problem.',
       'We know what the enemy will find. Because we find it first.',
-      'Before you ask "are we safe" — we\'re already checking.',
-      'Every network has weak spots. We know them before you do.'
+      'No soul could deceive him — for it was always watched from three sides.'
     ]
   };
 
