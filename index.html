@@ -255,31 +255,35 @@ body::before {
 }
 .teaser-rotate {
   margin-top: 16px;
-  height: 1.6em;
+  width: 100vw;
   position: relative;
   overflow: hidden;
+  height: 1.8em;
 }
 .teaser-rotate-line {
-  font-size: clamp(0.75rem, 1.3vw, 0.9rem);
-  color: rgba(239,68,68,0.7);
+  font-size: clamp(0.8rem, 1.4vw, 1rem);
+  color: rgba(239,68,68,0.75);
   letter-spacing: 0.1em;
   font-style: italic;
   position: absolute;
-  width: 100%;
+  white-space: nowrap;
   opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 1.2s ease, transform 1.2s ease;
-  text-shadow: 0 0 0 transparent;
+  left: 100%;
+  text-shadow: 0 0 12px rgba(239,68,68,0.15);
+  transition: opacity 0.8s ease;
 }
 .teaser-rotate-line.active {
   opacity: 1;
-  transform: translateY(0);
-  animation: quoteGlow 4s ease-in-out infinite;
+  animation: quoteScroll 8s linear forwards, quoteGlow 4s ease-in-out infinite;
 }
 
+@keyframes quoteScroll {
+  0% { left: 100%; }
+  100% { left: -100%; }
+}
 @keyframes quoteGlow {
-  0%, 100% { text-shadow: 0 0 8px rgba(239,68,68,0.1); }
-  50% { text-shadow: 0 0 20px rgba(239,68,68,0.3), 0 0 40px rgba(239,68,68,0.08); }
+  0%, 100% { text-shadow: 0 0 10px rgba(239,68,68,0.15); }
+  50% { text-shadow: 0 0 25px rgba(239,68,68,0.4), 0 0 50px rgba(239,68,68,0.1); }
 }
 
 @keyframes breathe {
@@ -659,7 +663,7 @@ body::before {
 .terminal-scan {
   position: fixed;
   top: 0;
-  width: 260px;
+  width: 320px;
   height: 100vh;
   overflow: hidden;
   pointer-events: none;
@@ -668,24 +672,24 @@ body::before {
   animation: termFadeIn 3s ease 4s forwards;
 }
 .terminal-scan--left {
-  left: 12px;
-  mask-image: linear-gradient(to right, rgba(0,0,0,0.8), transparent);
-  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.8), transparent);
+  left: 8px;
+  mask-image: linear-gradient(to right, rgba(0,0,0,1) 30%, transparent 95%);
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 30%, transparent 95%);
 }
 .terminal-scan--right {
-  right: 12px;
+  right: 8px;
   text-align: right;
-  mask-image: linear-gradient(to left, rgba(0,0,0,0.8), transparent);
-  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.8), transparent);
+  mask-image: linear-gradient(to left, rgba(0,0,0,1) 30%, transparent 95%);
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 30%, transparent 95%);
 }
 
 .terminal-lines {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 0.58rem;
-  line-height: 2;
-  color: rgba(255,255,255,0.07);
+  font-size: 0.65rem;
+  line-height: 2.2;
+  color: rgba(255,255,255,0.12);
   white-space: nowrap;
-  animation: termScroll 50s linear infinite;
+  animation: termScroll 45s linear infinite;
 }
 
 @keyframes termFadeIn {
@@ -1145,7 +1149,7 @@ body::before {
 
   setTimeout(function() {
     rotateQuote();
-    setInterval(rotateQuote, 4000);
+    setInterval(rotateQuote, 8500);
   }, 3500);
 
   // --- Terminal scan ---
