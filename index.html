@@ -490,10 +490,6 @@ body::before {
   gap: 8px;
   flex-shrink: 0;
 }
-.chat-footer-lock {
-  color: rgba(239, 68, 68, 0.4);
-  font-size: 0.7rem;
-}
 .chat-footer-info {
   font-size: 0.5rem;
   color: var(--text-vdim);
@@ -753,10 +749,10 @@ body::before {
   <div class="chat-modal">
     <div class="chat-header">
       <div class="chat-header-left">
-        <span class="chat-header-title">CYRBER · KONTAKT</span>
+        <span class="chat-header-title" data-pl="CYRBER · KONTAKT" data-en="CYRBER · CONTACT">CYRBER · KONTAKT</span>
         <span class="chat-status" id="chatStatus"></span>
       </div>
-      <button class="chat-close" onclick="closeChat()" title="Zamknij (Esc)">&#x2715;</button>
+      <button class="chat-close" onclick="closeChat()" title="Zamknij (Esc)" data-pl-title="Zamknij (Esc)" data-en-title="Close (Esc)">&#x2715;</button>
     </div>
     <!-- Welcome screen -->
     <div class="chat-welcome" id="chatWelcome">
@@ -812,6 +808,11 @@ body::before {
     inputs.forEach(function(el) {
       var val = el.getAttribute('data-' + lang + '-placeholder');
       if (val) el.placeholder = val;
+    });
+    var titles = document.querySelectorAll('[data-pl-title]');
+    titles.forEach(function(el) {
+      var val = el.getAttribute('data-' + lang + '-title');
+      if (val) el.title = val;
     });
     document.getElementById('langToggle').textContent = lang === 'pl' ? 'EN' : 'PL';
     document.documentElement.lang = lang;
